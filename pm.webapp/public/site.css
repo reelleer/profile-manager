@@ -1,0 +1,4 @@
+textarea.form-control {
+  outline: calc(5rem + 2px); 
+  height: 9rem;
+}
