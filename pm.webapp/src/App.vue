@@ -1,5 +1,5 @@
 <template>
-<header class="fixed-top">
+<header>
   <div class="container">
         <div class="col-12">
           <a class="" href="#">
@@ -31,7 +31,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse nav justify-content-center" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
           <router-link class="nav-link" to="/">Home</router-link>
@@ -50,7 +50,19 @@
 <main class="container">
   <router-view />
 </main>
-</template>
+<footer class="bg-black text-white pt-3 pd-2">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-4">
+          <img src="abaco.png" width="180">
+      </div>
 
+      <div class="col-8">
+        <h6 class="footer_text">powerby @ASPNicaragua</h6> 
+      </div> 
+      </div>
+    </div>
+</footer>
+</template>
 <style>
 </style>
