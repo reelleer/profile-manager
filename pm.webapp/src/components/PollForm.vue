@@ -30,7 +30,7 @@ export default {
     opportunities: { type: String, default: '' },
     activities: { type: String, default: '' },
     contacts: { type: Number, default: 0 },
-    follower: { type: Boolean, default: true }
+    follower: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -46,7 +46,7 @@ export default {
     save: debounce(function () {
         this.$emit("poll:save", { ...this.form })
       },
-      5000
+      1800
     )
   }
 }

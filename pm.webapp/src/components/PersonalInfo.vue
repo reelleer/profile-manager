@@ -117,7 +117,7 @@ export default {
       form: {
         name: this.name,
         lastName: this.lastName,
-        birthDate: this.birthDate.toISOString().slice(0,10),
+        birthDate: this.birthDate,
         birthPlace: this.birthPlace,
         country: this.country,
         address: this.address,
@@ -135,7 +135,7 @@ export default {
     save: debounce(function() {
         this.$emit("pinfo:save", { ...this.form })
       },
-      5000
+      500
     )
   }
 }
