@@ -64,6 +64,8 @@ import pollForm from '@/components/PollForm.vue'
 import studiesForm from '@/components/StudiesForm.vue'
 import studiesList from '@/components/StudiesList.vue'
 
+const API_URI = process.env.VUE_APP_PM_API;
+
 export default {
   name: 'Profile',
   props: {
@@ -77,12 +79,12 @@ export default {
   },
   data() {
     return {
-      baseURI: 'https://localhost:44365/api/',
+      baseURI: API_URI, 
       ready: false,
       showForm: false,
       editId: 0,
       profile: {
-        id: 0,
+        id: "",
         personalInfo: {},
         studies: [],
         poll: {},
@@ -99,6 +101,10 @@ export default {
       this.profile = await this.profileGet(this.id)
     }
     this.ready = true;    
+  },
+  mounted() {
+    if(this.profile.studies.length == 0)
+      this.showForm = true;
   },
   methods: {
     formCancel() {
@@ -120,7 +126,6 @@ export default {
         );
       }
       this.editId = 0
-      this.saveForm()
     },
     studyNew() {
       this.editId = 0
@@ -146,11 +151,9 @@ export default {
     },
     saveInfo(info) {
       this.profile.personalInfo = info
-      this.saveForm()
     },
     savePoll(poll) {
       this.profile.poll = poll
-      this.profileSave()
     },
     profileSave: debounce(
       async function() {
@@ -158,6 +161,9 @@ export default {
 
         if(this.profile.id === "") {
           response = await this.profilePost({ ...this.profile })
+          const data = await response.json();
+          this.profile.id = data.id;
+          this.profile.studies = data.studies;
         } else {
           response = await this.profilePut(this.profile.id, { ...this.profile })
         }
@@ -165,19 +171,20 @@ export default {
       }
     ),
     async profileGet(id) {
-      const response = await this.request(`${this.baseURI}profile/${id}`) 
-      return await response.json()
+      const response = await this.request(`${this.baseURI}profiles/${id}`) 
+      const profile = await response.json()
+      return profile;
     },
     async profilePost (data) {
       return await this.request(
-        `${this.baseURI}profile`,
+        `${this.baseURI}profiles`,
         'POST',
         data
       )
     },
     async profilePut(id, data) {
       return await this.request(
-        `${this.baseURI}profile/${id}`,
+        `${this.baseURI}profiles/${id}`,
         'PUT',
         data
       )
