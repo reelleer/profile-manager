@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Pm.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProfilesController : ControllerBase
     {
@@ -73,7 +73,7 @@ namespace Pm.Api.Controllers
         }
 
         [HttpPost]
-        public ProfileDto Post([FromBody]ProfileNewDto create)
+        public ProfileDto Post([FromBody]ProfileCreateDto create)
         {
             var entity = new Profile()
             {
@@ -99,7 +99,12 @@ namespace Pm.Api.Controllers
                 Follower = create.Poll.Follower,
                 Opportunities = create.Poll.Opportunities
             };
-            List<StudyItem> studies = GetStudyItems(create.Studies);
+
+            List<StudyItem> studies =
+                GetStudyItems(
+                    create.Studies,
+                    dto => DtoConveter.GetStudyItem(dto)
+                );
 
             entity.Studies = studies;
 
@@ -107,7 +112,7 @@ namespace Pm.Api.Controllers
 
             _context.SaveChanges();
 
-            List<StudyItemDto> studiesDto = GetStudiesDto(entity.Studies.ToList());
+            List<StudyItemEditDto> studiesDto = GetStudiesDto(entity.Studies.ToList());
 
             return new ProfileDto(
                 entity.ProfileId.ToString(),
@@ -117,21 +122,13 @@ namespace Pm.Api.Controllers
             );
         }
 
-        private static List<StudyItem> GetStudyItems(IList<StudyItemDto> items)
+        private static List<StudyItem> GetStudyItems<T>(IList<T> items, Func<T,StudyItem> create)
         {
             var studies = new List<StudyItem>();
 
             foreach (var item in items)
             {
-                var study = new StudyItem()
-                {
-                    Begin = item.Begin,
-                    Country = item.Country,
-                    End = item.End,
-                    Study = item.Study,
-                    Type = item.Type,
-                    University = item.University
-                };
+                var study = create(item);
 
                 studies.Add(study);
             }
@@ -139,13 +136,13 @@ namespace Pm.Api.Controllers
             return studies;
         }
 
-        private static List<StudyItemDto> GetStudiesDto(IList<StudyItem> studies)
+        private static List<StudyItemEditDto> GetStudiesDto(IList<StudyItem> studies)
         {
-            var studiesDto = new List<StudyItemDto>();
+            var studiesDto = new List<StudyItemEditDto>();
 
             foreach (var item in studies)
             {
-                var studyDto = new StudyItemDto(
+                var studyDto = new StudyItemEditDto(
                     item.Type,
                     item.Country,
                     item.University,
@@ -209,7 +206,10 @@ namespace Pm.Api.Controllers
                 }
             }
 
-            var newStudies = GetStudyItems(dto.Studies);
+            var newStudies = GetStudyItems(
+                dto.Studies,
+                dto => DtoConveter.GetStudyItem(dto)
+            );
 
             newStudies.ForEach(item => profile.Studies.Add(item));
 

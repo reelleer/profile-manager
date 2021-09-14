@@ -1,30 +1,44 @@
-﻿using System;
+﻿using Pm.Api.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Pm.Api.Dto
 {
-	public record ProfileDto : ProfileNewDto
+	public record ProfileDto : ProfileBaseDto
 	{
 		public ProfileDto(
 			string id,
 			PersonalInfoDto personalInfo,
 			PollDto poll,
-			IList<StudyItemDto> studies
-		) : base(personalInfo, poll, studies)
+			IList<StudyItemEditDto> studies
+		) : base(personalInfo, poll)
 		{
 			Id = id;
+			Studies = studies;
 		}
 
 		public string Id { get; init; }
+
+		public IList<StudyItemEditDto> Studies { get; init; }
+
 	}
 
-	public record ProfileNewDto (
-		PersonalInfoDto PersonalInfo,
-		PollDto Poll,
-		IList<StudyItemDto> Studies
-	);
+	public abstract record ProfileBaseDto(PersonalInfoDto PersonalInfo, PollDto Poll);
 
-	public record PersonalInfoDto (
+	public record ProfileCreateDto : ProfileBaseDto {
+		public ProfileCreateDto(
+			PersonalInfoDto personalInfo,
+			PollDto poll,
+			IList<StudyItemCreateDto> studies
+		) : base(personalInfo, poll)
+		{
+			Studies = studies;
+		}
+
+		public IList<StudyItemCreateDto> Studies { get; init; }
+	}
+
+	public record PersonalInfoDto(
 		string Name,
 		string LastName,
 		DateTime BirthDate,
@@ -40,22 +54,60 @@ namespace Pm.Api.Dto
 		byte Working
 	);
 
-	public record PollDto (
+	public record PollDto(
 		string Opportunities,
 		string Activities,
 		byte Contacts,
 		bool Follower
 	);
 
-	public record StudyItemDto (
+	public record StudyItemCreateDto(
 		byte Type,
 		string Country,
 		string University,
 		string Study,
 		DateTime Begin,
-		DateTime? End,
-		int Id
+		DateTime? End
 	);
+
+	public record StudyItemEditDto : StudyItemCreateDto {
+		public StudyItemEditDto(
+			byte type,
+			string country,
+			string university,
+			string study,
+			DateTime begin,
+			DateTime? end,
+			int id
+		) : base(type, country, university, study, begin, end)
+		{
+			Id = id;
+		}
+
+		public int Id { get; init; }
+	}
+
+	public static class DtoConveter {
+		public static StudyItem GetStudyItem(StudyItemCreateDto dto)
+        {
+			return new StudyItem()
+			{
+				Begin = dto.Begin,
+				Country = dto.Country,
+				End = dto.End,
+				Study = dto.Study,
+				Type = dto.Type,
+				University = dto.University
+			};
+		}
+		public static StudyItem GetStudyItem(StudyItemEditDto dto)
+		{
+			var study = GetStudyItem((StudyItemCreateDto)dto);
+			study.StudyId = dto.Id;
+			return study;
+		}
+
+	}
 }
 
 /*

@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pm.Api.Dal;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,9 +35,11 @@ namespace Pm.Api
                 options.AddPolicy(MyAllowSpecificOrigins,
                     (builder) =>
                     {
+#if DEBUG
                         builder.AllowAnyOrigin();
-                        builder.WithMethods("GET", "POST", "PUT");
                         builder.AllowAnyHeader();
+#endif               
+                        builder.WithMethods("GET", "POST", "PUT");
                     }
                 );
             });
@@ -54,7 +58,7 @@ namespace Pm.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
