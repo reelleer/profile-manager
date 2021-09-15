@@ -41,7 +41,7 @@ namespace Pm.Api.Dto
 	public record PersonalInfoDto(
 		string Name,
 		string LastName,
-		DateTime BirthDate,
+		DateTime? BirthDate,
 		string BirthPlace,
 		string Country,
 		string Address,

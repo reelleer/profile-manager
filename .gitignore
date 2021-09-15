@@ -24,3 +24,7 @@ obj
 *.njsproj
 *.sln
 *.sw?
+
+# Visual studio
+PublishProfiles/
+.config/

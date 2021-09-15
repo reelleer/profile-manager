@@ -51,12 +51,17 @@ namespace Pm.Api.Controllers
                 profile.Working
             );
 
-            var poll = new PollDto(
-                profile.Poll.Opportunities,
-                profile.Poll.Activities,
-                profile.Poll.Contacts,
-                profile.Poll.Follower
-            );
+            PollDto poll;
+
+            if (profile.Poll is not null)
+                poll = new PollDto(
+                    profile.Poll.Opportunities,
+                    profile.Poll.Activities,
+                    profile.Poll.Contacts,
+                    profile.Poll.Follower
+                );
+            else
+                poll = new PollDto("", "", 0, false);
 
             var stuides = GetStudiesDto(profile.Studies.ToList());
 
@@ -184,6 +189,8 @@ namespace Pm.Api.Controllers
             profile.Phone = dto.PersonalInfo.Phone;
             profile.Twitter = dto.PersonalInfo.Twitter;
             profile.Working = dto.PersonalInfo.Working;
+
+            if (profile.Poll is null) profile.Poll = new Poll();
 
             profile.Poll.Activities = dto.Poll.Activities;
             profile.Poll.Contacts = dto.Poll.Contacts;

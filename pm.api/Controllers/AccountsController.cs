@@ -27,7 +27,7 @@ namespace Pm.Api.Controllers
             var response = _userService.Authenticate(model);
 
             if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                return BadRequest(new { message = "Email is incorrect" });
 
             return Ok(response);
         }

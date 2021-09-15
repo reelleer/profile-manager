@@ -40,14 +40,35 @@ namespace Pm.Api.Services
             var user = _context.Profiles.Where(p => p.Email == model.Username)
                 .Select(p => new User()
                 {
-                    FirstName = p.Name,
-                    LastName = p.LastName,
+                    FirstName = p.Name ?? "",
+                    LastName = p.LastName ?? "",
                     Id = p.ProfileId.ToString(),
                     Username = p.Email
                 }).FirstOrDefault();
 
             // return null if user not found
-            if (user == null) return null;
+            if (user == null)
+            {
+                var profile = new Profile()
+                {
+                    Email = model.Username,
+                    BirthDate = new DateTime(1921,1,1),
+                    OriEmail = model.Username
+                };
+
+                _context.Profiles.Add(profile);
+
+                user = new User()
+                {
+                    Id = profile.ProfileId.ToString(),
+                    FirstName = "",
+                    LastName = "",
+                    Password = profile.Email
+                };
+
+                _context.SaveChanges();
+            }
+
 
             // authentication successful so generate jwt token
             var token = generateJwtToken(user);
@@ -69,16 +90,22 @@ namespace Pm.Api.Services
         public User GetById(Guid id)
         {
             //return _users.FirstOrDefault(x => x.Id == id);
-
-            var perfil = _context.Profiles.Find(id);
-
-            return new User()
+            try
             {
-                Id = perfil.ProfileId.ToString(),
-                FirstName = perfil.Name,
-                LastName = perfil.LastName,
-                Username = perfil.Email
-            };
+                var perfil = _context.Profiles.FirstOrDefault(p => p.ProfileId == id);
+
+                return new User()
+                {
+                    Id = perfil.ProfileId.ToString(),
+                    FirstName = perfil.Name,
+                    LastName = perfil.LastName,
+                    Username = perfil.Email
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         // helper methods

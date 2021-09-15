@@ -116,12 +116,11 @@ export default {
     if(data) {
       const user = JSON.parse(data)
       this.profile = await this.profileGet(user.id)
+
+      if(this.profile.studies.length == 0)
+        this.showForm = true;
     }
     this.ready = true;    
-  },
-  mounted() {
-    if(this.profile.studies.length == 0)
-      this.showForm = true;
   },
   methods: {
     formCancel() {
@@ -137,7 +136,7 @@ export default {
       } else {
         this.profile.studies.push(
           {
-            id: Date.now() * -1,
+            id: Symbol(itemForm.study),
             ...itemForm
           }
         );
@@ -186,10 +185,6 @@ export default {
           }
 
           if(response.ok) {
-            const data = await response.json();
-
-            this.profile.id = data.id;
-            this.profile.studies = data.studies;
             this.$router.push({ name: "ProfileEnd" })
           } else {
             alert("Su perfil no se pudo almacenar, por favor intente en un minuto.")

@@ -1,5 +1,5 @@
 <template>
-  <form v-if="!isLogged" @submit.prevent="login" class="login">
+  <div v-if="!isLogged" class="login">
     <div
       v-if="message"
       class="alert alert-danger alert-dismissible fade show"
@@ -16,21 +16,21 @@
     </div>
     <div class="form-floating mb-3">
       <input
-          v-model="form.email"
+          v-model="v$.form.email.$model"
           class="form-control"
+          :class="{ 'is-invalid': v$.form.email.$error }"
           id="email"
           type="mail"
           placeholder="your@email.com"
-          required
       />
       <label for="email">Correo Eléctronico</label>
     </div>
-    <button type="submit" class="btn btn-primary mb-3">
+    <button type="button" @click="login" class="btn btn-primary mb-3">
       <svg class="me-2" width="18" height="18" fill="currentColor">
         <use xlink:href="#check-square" />
       </svg> Ingresar
     </button>
-  </form>
+  </div>
   <button v-else type="button" @click="logout" class="btn btn-primary mb-3">
     <svg class="me-2" width="18" height="18" fill="currentColor">
       <use xlink:href="#check-square" />
@@ -39,16 +39,32 @@
 </template>
 <script>
 import debounce from "lodash/debounce";
-const loggedIn = localStorage.getItem("user");
+import useVuelidate from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
+
 
 export default {
   name: "LoginForm",
+  setup() {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       message: undefined,
-      isLogged: !!loggedIn,
+      isLogged: false,
       form: {
         email: ""
+      }
+    }
+  },
+  beforeMount() {
+    const loggedIn = localStorage.getItem("user");
+    this.isLogged = !!loggedIn;
+  },
+  validations() {
+    return {
+      form: {
+        email: {required, email}
       }
     }
   },
@@ -56,6 +72,12 @@ export default {
     login: debounce(
       async function () {
         this.message = "";
+
+        const isOk = this.v$.$validate();
+
+        if (!isOk)
+          return this.message = "Email incorrecto.";
+
         let data = {
           username: this.form.email,
           password: Date.now().toString()
@@ -91,12 +113,13 @@ export default {
             this.$router.push({ name: 'Profile' });
           }
         }
-      }
-    )
-  },
-  logout() {
-    localStorage.removeItem("user");
-    this.isLogged = false;
+      },
+      250
+    ),
+    logout() {
+      localStorage.removeItem("user");
+      this.isLogged = false;
+    }
   }
 }
 </script>
