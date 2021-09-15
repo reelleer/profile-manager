@@ -3,7 +3,7 @@
   <div v-else>
     <h1 class="h2 py-3">Rellene el Formulario para actualizar sus datos</h1>
     <personalInfo
-        :address="profile.personalInfo.adress"
+        :address="profile.personalInfo.address"
         :birthDate = "profile.personalInfo.birthDate"
         :birthPlace = "profile.personalInfo.birthPlace"
         :country = "profile.personalInfo.country"
@@ -112,8 +112,10 @@ export default {
     }
   },
   async beforeMount () {
-    if(this.id !== "") {
-      this.profile = await this.profileGet(this.id)
+    const data = localStorage.getItem("user")
+    if(data) {
+      const user = JSON.parse(data)
+      this.profile = await this.profileGet(user.id)
     }
     this.ready = true;    
   },
@@ -217,12 +219,17 @@ export default {
       )
     },
     async request(uri, method = "GET", body){
+      const user = JSON.parse(
+          localStorage.getItem("user")
+        );
+
       let response
 
       const init = {
         method,
-        mode: 'cors',
-        credentials: 'omit'
+        headers: {
+          'Authorization': 'Bearer ' + user.token
+        }
       }
       console.log(uri, method, body, init)
       if (["POST", "PUT"].indexOf(method.toUpperCase()) !== -1)
@@ -231,6 +238,7 @@ export default {
             {
               ...init,
               headers: {
+                ...init.headers,
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(body)

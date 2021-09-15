@@ -14,16 +14,7 @@
         </article>
         </div>
         <div class="col">
-          <div class="login">
-            <h4>Ingrese al club Erasmus</h4>
-            <form>
-              <h6>Usuario/Correo</h6>
-              <input type="email" name="email" placeholder="example@email.com" required>
-              <h6>Contraseña</h6>
-              <input type="password" name="password" placeholder="contraseña" required>
-              <input type="submit" name="submit" value="Iniciar Sesión">
-            </form>
-          </div>
+          <loginForm></loginForm>
         </div>
     </div>
   </div>  
@@ -31,6 +22,12 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import loginForm from "@/components/LoginForm.vue"
 
+export default {
+  name: 'Home',
+  components: {
+    loginForm
+  }
+}
 </script>
