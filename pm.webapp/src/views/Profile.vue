@@ -25,6 +25,9 @@
         @slist:remove="studyRemove"
         :show="!showForm"
         ></studiesList>
+    <p v-show="v$.profile.studies.$error" class="my-4 text-danger">
+      Debe agregar al menos un estudio realizada con le program erasmus.
+    </p>
     <button v-if="!showForm" @click="studyNew" class="btn btn-primary">
       <svg width="19" height="18" fill="currentColor">
         <use xlink:href="#plus-square" />
@@ -63,11 +66,16 @@ import personalInfo from '@/components/PersonalInfo.vue'
 import pollForm from '@/components/PollForm.vue'
 import studiesForm from '@/components/StudiesForm.vue'
 import studiesList from '@/components/StudiesList.vue'
+import useVuelidate from '@vuelidate/core'
+import { minLength } from '@vuelidate/validators'
 
 const API_URI = process.env.VUE_APP_PM_API;
 
 export default {
   name: 'Profile',
+  setup() {
+    return { v$: useVuelidate() }
+  },
   props: {
     id: { type: String, default: "" }
   },
@@ -88,6 +96,13 @@ export default {
         personalInfo: {},
         studies: [],
         poll: {},
+      }
+    }
+  },
+  validations(){
+    return {
+      profile: {
+        studies: { minLength: minLength(1) }
       }
     }
   },
@@ -157,18 +172,30 @@ export default {
     },
     profileSave: debounce(
       async function() {
-        let response
+        const isOk = this.v$.$validate();
 
-        if(this.profile.id === "") {
-          response = await this.profilePost({ ...this.profile })
-          const data = await response.json();
-          this.profile.id = data.id;
-          this.profile.studies = data.studies;
-        } else {
-          response = await this.profilePut(this.profile.id, { ...this.profile })
+        if(isOk) {
+          let response
+
+          if(this.profile.id === "") {
+            response = await this.profilePost({ ...this.profile })
+          } else {
+            response = await this.profilePut(this.profile.id, { ...this.profile })
+          }
+
+          if(response.ok) {
+            const data = await response.json();
+
+            this.profile.id = data.id;
+            this.profile.studies = data.studies;
+            this.$router.push({ name: "ProfileEnd" })
+          } else {
+            alert("Su perfil no se pudo almacenar, por favor intente en un minuto.")
+          }
+          console.log(response)
         }
-        console.log(response)
-      }
+      },
+      300
     ),
     async profileGet(id) {
       const response = await this.request(`${this.baseURI}profiles/${id}`) 

@@ -1,7 +1,42 @@
-.header__erasmus{
+.header__erasmus {
   background-color: #004494;
 }
 
+.header__nav {
+  background-color: #4073AF;
+}
+
+.header__erasmus .header__erasmus-title {
+  color: white;
+}
+
+.header__deu .header__deu-title {
+  color: var(--bs-body-color);
+}
+
+.header__nav .router-link-active {
+  background-color: #1C354C;
+}
+
+/*
+.header__nav .navbar {
+  padding: 0 0;
+}
+
+.header__deu,
+.header__erasmus {
+  height: 6.75rem;
+}
+.header__deu .header__deu-title,
+.header__erasmus .header__erasmus-title {
+  font-size: 1.7em;
+}
+
+.header__nav .navbar .nav-link {
+  font-size: 1.375rem;  
+  line-height: 3.875rem;
+}
+*/
 .post{
   padding-bottom: 20px;
   margin-bottom: 20px;

@@ -18,7 +18,7 @@ const routes = [
   },
   {
     path: "/profile",
-    name: "Perfil",
+    name: "Profile",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -27,6 +27,15 @@ const routes = [
     props: (route) => {
       return { ...route.params }
     }
+  },
+  {
+    path: "/profile/end",
+    name: "ProfileEnd",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "end" */ "../views/ProfileEnd.vue")
   }
 ];
 

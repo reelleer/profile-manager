@@ -2,10 +2,22 @@
   <h2 class="h2 border-bottom border-dark py-2">Club Erasmus</h2>
   <div @input="save" class="row row-cols-1 row-cols-md-2">
     <div class="col">
-      <textarea v-model="form.opportunities" class="form-control mb-3" id="opportunities" placeholder="¿Qué oportunidades le ha brindado el programa Erasmus?"></textarea>
+      <textarea
+        v-model="v$.form.opportunities.$model"
+        class="form-control mb-3"
+        :class="{ 'is-invalid': v$.form.opportunities.$error }"
+        id="opportunities"
+        placeholder="¿Qué oportunidades le ha brindado el programa Erasmus?"
+      ></textarea>
     </div>
     <div class="col">
-      <textarea v-model="form.activities" class="form-control mb-3" id="floatingInput" placeholder="¿Qué actividades te gustaría que el Club Erasmus promovido por la Unión Europea en Nicaragua impulsara?"></textarea>
+      <textarea
+        v-model="v$.form.activities.$model"
+        class="form-control mb-3"
+        :class="{ 'is-invalid': v$.form.activities.$error }"
+        id="activities"
+        placeholder="¿Qué actividades te gustaría que el Club Erasmus promovido por la Unión Europea en Nicaragua impulsara?"
+        ></textarea>
     </div>
     <div class="col">
       <div class="mb-3">
@@ -23,9 +35,14 @@
 </template>
 <script>
 import debounce from 'lodash/debounce'
+import useVuelidate from '@vuelidate/core'
+import { required, maxLength } from '@vuelidate/validators'
 
 export default {
   name: 'PollForm',
+  setup() {
+    return { v$: useVuelidate() }
+  },
   props: {
     opportunities: { type: String, default: '' },
     activities: { type: String, default: '' },
@@ -37,6 +54,16 @@ export default {
       form: {
         opportunities: this.opportunities,
         activities: this.activities,
+        contacts: this.contacts,
+        follower: this.follower
+      }
+    }
+  },
+  validations() {
+    return {
+      form: {
+        opportunities: { required, maxLength: maxLength(1000) },
+        activities: { required, maxLength: maxLength(1000) },
         contacts: this.contacts,
         follower: this.follower
       }
