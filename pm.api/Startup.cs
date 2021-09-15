@@ -9,6 +9,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pm.Api.Dal;
+using Pm.Api.helpers;
+using Pm.Api.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,6 +50,12 @@ namespace Pm.Api
                 option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
+
             services.AddControllers();
         }
 
@@ -65,7 +73,10 @@ namespace Pm.Api
 
             app.UseCors(MyAllowSpecificOrigins);
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

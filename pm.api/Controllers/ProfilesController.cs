@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Pm.Api.Dal;
 using Pm.Api.Dto;
+using Pm.Api.helpers;
 using Pm.Api.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Pm.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class ProfilesController : ControllerBase
     {
         private readonly ILogger<ProfilesController> _logger;
