@@ -10,8 +10,8 @@
             aria-label="Tipo de Estudio"
         >
           <option selected value="">(Seleccione una opcción)</option>
-          <option value="1">Liciatura/Ingenieria</option>
-          <option value="2">Postrgrado/Epecialización</option>
+          <option value="1">Licenciatura/Ingeniería</option>
+          <option value="2">Postgrado/Especialización</option>
           <option value="3">Maestría</option>
           <option value="3">Doctorado</option>
         </select>
@@ -38,7 +38,7 @@
         class="form-control"
           :class="{ 'is-invalid': v$.form.university.$error }"
         type="text"
-        placeholder="Universiad"
+        placeholder="Universidad"
         />
         <label for="university">Universiad</label>
       </div>
@@ -50,9 +50,9 @@
         class="form-control"
         :class="{ 'is-invalid': v$.form.study.$error }"
         type="text"
-        placeholder="Carrera"
+        placeholder="Carrera/Studio"
         />
-        <label for="study">Carrera</label>
+        <label for="study">Carrera/Studio</label>
       </div>
     </div>
     <div class="col">

@@ -1,41 +1,46 @@
 <template>
-  <div v-if="!isLogged" class="login">
-    <div
-      v-if="message"
-      class="alert alert-danger alert-dismissible fade show"
-      role="alert"
-    >
-      {{ message }}
-      <button
-        @click="message = undefined"
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-      ></button>
+  <div class="login">
+    <div v-if="!isLogged">
+      <div
+          v-if="message"
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          >
+          {{ message }}
+          <button
+              @click="message = undefined"
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+              ></button>
+      </div>
+        <div class="form-floating mb-3">
+          <input
+              v-model="v$.form.email.$model"
+              class="form-control"
+              :class="{ 'is-invalid': v$.form.email.$error }"
+              id="email"
+              type="mail"
+              placeholder="your@email.com"
+              />
+          <label for="email">Correo Eléctronico</label>
+        </div>
+        <button type="button" @click="login" class="btn btn-primary mb-3">
+          <svg class="me-2" width="18" height="18" fill="currentColor">
+            <use xlink:href="#check-square" />
+          </svg> Ingresar
+        </button>
     </div>
-    <div class="form-floating mb-3">
-      <input
-          v-model="v$.form.email.$model"
-          class="form-control"
-          :class="{ 'is-invalid': v$.form.email.$error }"
-          id="email"
-          type="mail"
-          placeholder="your@email.com"
-      />
-      <label for="email">Correo Eléctronico</label>
+    <div v-else>
+      <p class="h3 my-3">Hola {{ user.firstName + " " + user.lastName }}</p>
+      <button type="button" @click="logout" class="btn btn-primary mb-3">
+        <svg class="me-2" width="18" height="18" fill="currentColor">
+          <use xlink:href="#check-square" />
+        </svg> Salir
+      </button>
     </div>
-    <button type="button" @click="login" class="btn btn-primary mb-3">
-      <svg class="me-2" width="18" height="18" fill="currentColor">
-        <use xlink:href="#check-square" />
-      </svg> Ingresar
-    </button>
   </div>
-  <button v-else type="button" @click="logout" class="btn btn-primary mb-3">
-    <svg class="me-2" width="18" height="18" fill="currentColor">
-      <use xlink:href="#check-square" />
-    </svg> Salir
-  </button>
 </template>
 <script>
 import debounce from "lodash/debounce";
@@ -52,14 +57,27 @@ export default {
     return {
       message: undefined,
       isLogged: false,
+      user: {
+        firstName: "",
+        lastName: ""
+      },
       form: {
         email: ""
       }
     }
   },
   beforeMount() {
-    const loggedIn = localStorage.getItem("user");
-    this.isLogged = !!loggedIn;
+    let user = localStorage.getItem("user");
+    console.log(user);
+
+    this.isLogged = !!user;
+
+    if(this.isLogged) {
+      user = JSON.parse(user);
+
+      this.user.firstName = user.firstName;
+      this.user.lastName = user.lastName;
+    }  
   },
   validations() {
     return {

@@ -100,7 +100,7 @@
           :class="{ 'is-invalid': v$.form.email.$error }"
             id="email"
             placeholder="name@example.com">
-        <label for="email">Correo Eléctronico</label>
+        <label for="email">Correo Electrónico</label>
       </div>
     </div>
     <div class="col">

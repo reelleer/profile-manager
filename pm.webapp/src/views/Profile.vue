@@ -26,7 +26,7 @@
         :show="!showForm"
         ></studiesList>
     <p v-show="v$.profile.studies.$error" class="my-4 text-danger">
-      Debe agregar al menos un estudio realizada con le program erasmus.
+      Debe agregar al menos un estudio realizado con el programa Erasmus.
     </p>
     <button v-if="!showForm" @click="studyNew" class="btn btn-primary">
       <svg width="19" height="18" fill="currentColor">
@@ -67,7 +67,7 @@ import pollForm from '@/components/PollForm.vue'
 import studiesForm from '@/components/StudiesForm.vue'
 import studiesList from '@/components/StudiesList.vue'
 import useVuelidate from '@vuelidate/core'
-import { minLength } from '@vuelidate/validators'
+import { required, minLength } from '@vuelidate/validators'
 
 const API_URI = process.env.VUE_APP_PM_API;
 
@@ -102,7 +102,7 @@ export default {
   validations(){
     return {
       profile: {
-        studies: { minLength: minLength(1) }
+        studies: { required, minLength: minLength(1) }
       }
     }
   },
@@ -117,7 +117,7 @@ export default {
       const user = JSON.parse(data)
       this.profile = await this.profileGet(user.id)
 
-      if(this.profile.studies.length == 0)
+      if(!this.profile.studies || this.profile.studies.length == 0)
         this.showForm = true;
     }
     this.ready = true;    
@@ -173,7 +173,7 @@ export default {
     },
     profileSave: debounce(
       async function() {
-        const isOk = this.v$.$validate();
+        const isOk = await this.v$.$validate();
 
         if(isOk) {
           let response
@@ -185,6 +185,13 @@ export default {
           }
 
           if(response.ok) {
+            const user = JSON.parse(localStorage.getItem("user"));
+
+            user.firstName = this.profile.personalInfo.name;
+            user.lastName = this.profile.personalInfo.lastName;
+
+            localStorage.setItem("user", JSON.stringify(user))
+
             this.$router.push({ name: "ProfileEnd" })
           } else {
             alert("Su perfil no se pudo almacenar, por favor intente en un minuto.")
@@ -226,7 +233,7 @@ export default {
           'Authorization': 'Bearer ' + user.token
         }
       }
-      console.log(uri, method, body, init)
+
       if (["POST", "PUT"].indexOf(method.toUpperCase()) !== -1)
         response = await fetch (
             uri,
@@ -242,6 +249,13 @@ export default {
       else
         response = await fetch(uri, init)
         
+      console.log(uri, method, body, init, response)
+
+      if(response.status == 401) {
+        localStorage.removeItem("user")
+        this.$router.push({ name: "home" })
+      }
+      
       return response
     }
   }
