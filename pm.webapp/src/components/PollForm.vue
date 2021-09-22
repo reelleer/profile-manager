@@ -17,37 +17,53 @@
         :class="{ 'is-invalid': v$.form.activities.$error }"
         id="activities"
         placeholder="¿Qué actividades te gustaría que el Club Erasmus promovido por la Unión Europea en Nicaragua impulsara?"
-        ></textarea>
+      ></textarea>
     </div>
     <div class="col">
       <div class="mb-3">
-        <label for="contacts">¿Tienes contacto con estudiantes becados a través del Programa Erasmus? ¿En caso positivo cuántos conoces?</label>
-        <input v-model="form.contacts" type="number" id="contacts" min="0" max="30" class="form-control" placeholder="Contactos">
+        <label for="contacts"
+          >¿Tienes contacto con estudiantes becados a través del Programa
+          Erasmus? ¿En caso positivo cuántos conoces?</label
+        >
+        <input
+          v-model="form.contacts"
+          type="number"
+          id="contacts"
+          min="0"
+          max="30"
+          class="form-control"
+          placeholder="Contactos"
+        />
       </div>
     </div>
     <div class="col">
       <div class="form-check form-switch mb-3">
-        <input v-model="form.follower" class="form-check-input" type="checkbox" id="follower">
+        <input
+          v-model="form.follower"
+          class="form-check-input"
+          type="checkbox"
+          id="follower"
+        />
         <label for="follower">¿Sigues las redes sociales de la DUE?</label>
       </div>
     </div>
   </div>
 </template>
 <script>
-import debounce from 'lodash/debounce'
-import useVuelidate from '@vuelidate/core'
-import { required, maxLength } from '@vuelidate/validators'
+import debounce from "lodash/debounce";
+import useVuelidate from "@vuelidate/core";
+import { required, maxLength } from "@vuelidate/validators";
 
 export default {
-  name: 'PollForm',
+  name: "PollForm",
   setup() {
-    return { v$: useVuelidate() }
+    return { v$: useVuelidate() };
   },
   props: {
-    opportunities: { type: String, default: '' },
-    activities: { type: String, default: '' },
+    opportunities: { type: String, default: "" },
+    activities: { type: String, default: "" },
     contacts: { type: Number, default: 0 },
-    follower: { type: Boolean, default: false }
+    follower: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -55,9 +71,9 @@ export default {
         opportunities: this.opportunities,
         activities: this.activities,
         contacts: this.contacts,
-        follower: this.follower
-      }
-    }
+        follower: this.follower,
+      },
+    };
   },
   validations() {
     return {
@@ -65,17 +81,15 @@ export default {
         opportunities: { required, maxLength: maxLength(1000) },
         activities: { required, maxLength: maxLength(1000) },
         contacts: this.contacts,
-        follower: this.follower
-      }
-    }
+        follower: this.follower,
+      },
+    };
   },
   methods: {
     save: debounce(function () {
-        this.$emit("poll:save", { ...this.form })
-      },
-      1800
-    )
-  }
-}
+      this.$emit("poll:save", { ...this.form });
+    }, 1800),
+  },
+};
 </script>
 <style></style>

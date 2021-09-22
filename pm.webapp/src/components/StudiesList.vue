@@ -7,8 +7,7 @@
           <h5 class="card-title">{{ study.study }}</h5>
           <h6 class="card-subtitle text-muted">{{ study.university }}</h6>
           <p class="fw-light">
-            {{ study.country }},
-            {{ formatDate(study.begin) }} - 
+            {{ study.country }}, {{ formatDate(study.begin) }} -
             {{ formatDate(study.end) }}
           </p>
           <div class="d-flex justify-content-end">
@@ -40,18 +39,18 @@
 </template>
 <script>
 let formatDate = (str) => {
-  let date = (new Date(Date.parse(str)));
-  return `${date.getMonth() + 1}/${date.getFullYear()}`
-}
+  let date = new Date(Date.parse(str));
+  return `${date.getMonth() + 1}/${date.getFullYear()}`;
+};
 export default {
-  name: 'StudiesList',
+  name: "StudiesList",
   props: {
     show: { type: Boolean, default: true },
-    items: { type: Array, default: ()=>[] }
+    items: { type: Array, default: () => [] },
   },
   methods: {
-    formatDate
-  }
-}
+    formatDate,
+  },
+};
 </script>
 <style></style>

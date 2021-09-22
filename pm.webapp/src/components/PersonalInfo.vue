@@ -1,8 +1,10 @@
 <template>
-  <h2 class="h3 border-bottom border-dark py-2">Ingrese sus datos Personales</h2>
+  <h2 class="h3 border-bottom border-dark py-2">
+    Ingrese sus datos Personales
+  </h2>
   <div @input="save" class="row row-cols-1 row-cols-md-2">
     <div class="col">
-      <div class="form-floating mb-3" >
+      <div class="form-floating mb-3">
         <input
           v-model="v$.form.name.$model"
           type="text"
@@ -22,19 +24,20 @@
           class="form-control"
           :class="{ 'is-invalid': v$.form.lastName.$error }"
           id="lastName"
-          placeholder="Páramo">
+          placeholder="Páramo"
+        />
         <label for="lastName">Apellidos</label>
       </div>
     </div>
     <div class="col">
       <div class="form-floating mb-3">
         <input
-         v-model="v$.form.birthDate.$model"
-         type="date"
-         class="form-control"
-         :class="{ 'is-invalid': v$.form.birthDate.$error }"
-         id="birthDate"
-         placeholder="-"
+          v-model="v$.form.birthDate.$model"
+          type="date"
+          class="form-control"
+          :class="{ 'is-invalid': v$.form.birthDate.$error }"
+          id="birthDate"
+          placeholder="-"
         />
         <label for="birthDate">Fecha Nacimiento</label>
       </div>
@@ -94,12 +97,13 @@
     <div class="col">
       <div class="form-floating mb-3">
         <input
-            v-model="v$.form.email.$model"
-            type="email"
-            class="form-control"
+          v-model="v$.form.email.$model"
+          type="email"
+          class="form-control"
           :class="{ 'is-invalid': v$.form.email.$error }"
-            id="email"
-            placeholder="name@example.com">
+          id="email"
+          placeholder="name@example.com"
+        />
         <label for="email">Correo Electrónico</label>
       </div>
     </div>
@@ -126,12 +130,12 @@
     <div class="col">
       <div class="form-floating mb-3">
         <input
-            v-model="v$.form.twitter.$model"
-            type="text"
-            class="form-control"
-            :class="{ 'is-invalid': v$.form.twitter.$error }"
-            id="twitter"
-            placeholder="twitter"
+          v-model="v$.form.twitter.$model"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': v$.form.twitter.$error }"
+          id="twitter"
+          placeholder="twitter"
         />
         <label for="twitter">Twitter</label>
       </div>
@@ -139,11 +143,11 @@
     <div class="col">
       <div class="form-floating mb-3">
         <input
-            v-model="v$.form.facebook.$model"
-            type="text"
-            class="form-control"
-            id="facebook"
-            placeholder="Facebook"
+          v-model="v$.form.facebook.$model"
+          type="text"
+          class="form-control"
+          id="facebook"
+          placeholder="Facebook"
         />
         <label for="facebook">Facebook</label>
       </div>
@@ -151,12 +155,12 @@
     <div class="col">
       <div class="form-floating mb-3">
         <input
-            v-model="v$.form.linkedin.$model"
-            type="text"
-            class="form-control"
+          v-model="v$.form.linkedin.$model"
+          type="text"
+          class="form-control"
           :class="{ 'is-invalid': v$.form.linkedin.$error }"
-            id="linkedin"
-            placeholder="LinkedIn"
+          id="linkedin"
+          placeholder="LinkedIn"
         />
         <label for="linkedin">LinkedIn</label>
       </div>
@@ -164,12 +168,12 @@
     <div class="col">
       <div class="form-floating mb-3">
         <input
-            v-model="v$.form.instagram.$model"
-            type="text"
-            class="form-control"
-            :class="{ 'is-invalid': v$.form.instagram.$error }"
-            id="instagram"
-            placeholder="Instagram"
+          v-model="v$.form.instagram.$model"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': v$.form.instagram.$error }"
+          id="instagram"
+          placeholder="Instagram"
         />
         <label for="instagram">Instagram</label>
       </div>
@@ -177,29 +181,29 @@
   </div>
 </template>
 <script>
-import debounce from 'lodash/debounce';
-import useVuelidate from '@vuelidate/core'
-import { required, email, maxLength, numeric } from '@vuelidate/validators'
+import debounce from "lodash/debounce";
+import useVuelidate from "@vuelidate/core";
+import { required, email, maxLength, numeric } from "@vuelidate/validators";
 
 export default {
-  name: 'PersonalInfo',
+  name: "PersonalInfo",
   setup() {
-    return { v$: useVuelidate() }
+    return { v$: useVuelidate() };
   },
   props: {
-    name: { type: String, default: '' },
-    lastName: { type: String, default: '' },
+    name: { type: String, default: "" },
+    lastName: { type: String, default: "" },
     birthDate: { type: Date, default: "" },
-    birthPlace: { type: String, default: '' },
-    country: { type: String, default: '' },
-    address: { type: String, default: '' },
-    phone: { type: String, default: '' },
-    email: { type: String, default: '' },
-    twitter: { type: String, default: '' },
-    facebook: { type: String, default: '' },
-    linkedin: { type: String, default: '' },
-    instagram: { type: String, default: '' },
-    working: { type: String, default: '' },
+    birthPlace: { type: String, default: "" },
+    country: { type: String, default: "" },
+    address: { type: String, default: "" },
+    phone: { type: String, default: "" },
+    email: { type: String, default: "" },
+    twitter: { type: String, default: "" },
+    facebook: { type: String, default: "" },
+    linkedin: { type: String, default: "" },
+    instagram: { type: String, default: "" },
+    working: { type: String, default: "" },
   },
   data() {
     return {
@@ -216,9 +220,9 @@ export default {
         facebook: this.facebook,
         linkedin: this.linkedin,
         instagram: this.instagram,
-        working: this.working
-      }
-    }
+        working: this.working,
+      },
+    };
   },
   validations() {
     return {
@@ -235,17 +239,15 @@ export default {
         facebook: { maxLength: maxLength(128) },
         linkedin: { maxLength: maxLength(128) },
         instagram: { maxLength: maxLength(128) },
-        working: { required, numeric }
-      }
-    }
+        working: { required, numeric },
+      },
+    };
   },
   methods: {
-    save: debounce(function() {
-        this.$emit("pinfo:save", { ...this.form })
-      },
-      500
-    )
-  }
-}
+    save: debounce(function () {
+      this.$emit("pinfo:save", { ...this.form });
+    }, 500),
+  },
+};
 </script>
 <style></style>
