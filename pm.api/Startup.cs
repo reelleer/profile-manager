@@ -21,7 +21,6 @@ namespace Pm.Api
 {
     public class Startup
     {
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,19 +31,19 @@ namespace Pm.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+#if DEBUG
             services.AddCors(options =>
             {
-                options.AddPolicy(MyAllowSpecificOrigins,
+                options.AddDefaultPolicy(
                     (builder) =>
                     {
-#if DEBUG
                         builder.AllowAnyOrigin();
                         builder.AllowAnyHeader();
-#endif               
-                        builder.WithMethods("GET", "POST", "PUT");
+                        builder.AllowAnyMethod();
                     }
                 );
             });
+#endif               
 
             services.AddDbContext<ErasmusContext>(
                 option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -71,9 +70,11 @@ namespace Pm.Api
 
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+#if DEBUG
+            app.UseCors();
+#endif
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             // custom jwt auth middleware
             app.UseMiddleware<JwtMiddleware>();
