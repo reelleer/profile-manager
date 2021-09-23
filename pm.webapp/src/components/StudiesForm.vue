@@ -70,6 +70,7 @@
     <div class="col">
       <div class="form-floating mb-3">
         <input
+          id="end"
           v-model="v$.form.end.$model"
           class="form-control"
           :class="{ 'is-invalid': v$.form.end.$error }"
@@ -77,6 +78,9 @@
           placeholder="Fecha de Finalización"
         />
         <label for="end">Fecha de Finalización</label>
+        <p id="endHelp" class="form-text">
+          Si aún no está finalizada, proporcione una fecha aproximada.
+        </p>
       </div>
     </div>
     <div class="col-auto">
@@ -102,6 +106,7 @@
 <script>
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, numeric, minValue } from "@vuelidate/validators";
+import { greaterThan } from "@/helpers/validators.js";
 
 const formatDate = (value) =>
   new Date(Date.parse(value)).toISOString().slice(0, 10);
@@ -116,8 +121,8 @@ export default {
     country: { type: String, default: "" },
     university: { type: String, default: "" },
     study: { type: String, default: "" },
-    begin: { type: Date, default: () => new Date(Date.now()) },
-    end: { type: Date, default: () => new Date(Date.now()) },
+    begin: { type: String, default: "" },
+    end: { type: String, default: "" },
   },
   data() {
     return {
@@ -139,7 +144,7 @@ export default {
         university: { required, maxLength: maxLength(150) },
         study: { required, maxLength: maxLength(150) },
         begin: { required },
-        end: { required },
+        end: { required, greaterThan: greaterThan(() => this.form.begin) },
       },
     };
   },
@@ -149,8 +154,6 @@ export default {
       if (isOk) {
         this.$emit("sform:save", {
           ...this.form,
-          begin: new Date(this.form.begin),
-          end: new Date(this.form.end),
         });
       }
     },

@@ -233,7 +233,7 @@ export default {
         birthPlace: { required, maxLength: maxLength(150) },
         country: { required, maxLength: maxLength(150) },
         address: { required, maxLength: maxLength(150) },
-        phone: { required, maxLength: maxLength(20) },
+        phone: { required, maxLength: maxLength(100) },
         email: { required, email, maxLength: maxLength(128) },
         twitter: { maxLength: maxLength(128) },
         facebook: { maxLength: maxLength(128) },
