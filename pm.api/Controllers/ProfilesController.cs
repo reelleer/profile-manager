@@ -96,7 +96,8 @@ namespace Pm.Api.Controllers
                 Name = create.PersonalInfo.Name,
                 Phone = create.PersonalInfo.Phone,
                 Twitter = create.PersonalInfo.Twitter,
-                Working = create.PersonalInfo.Working
+                Working = create.PersonalInfo.Working,
+                Updated = DateTime.Now
             };
 
             entity.Poll = new()
@@ -189,6 +190,8 @@ namespace Pm.Api.Controllers
             profile.Phone = dto.PersonalInfo.Phone;
             profile.Twitter = dto.PersonalInfo.Twitter;
             profile.Working = dto.PersonalInfo.Working;
+
+            profile.Updated = DateTime.Now;
 
             if (profile.Poll is null) profile.Poll = new Poll();
 

@@ -30,7 +30,7 @@ namespace Pm.Api.Models
         [MaxLength(150)]
         public string Address { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(100)]
         public string Phone { get; set; }
 
         [MaxLength(256)]
@@ -54,6 +54,8 @@ namespace Pm.Api.Models
         public string FullName => $"{Name} {LastName}";
 
         public string OriEmail { get; set; }
+
+        public DateTime? Updated { get; set; }
 
         public virtual ICollection<StudyItem> Studies { get; set; }
 
