@@ -89,23 +89,15 @@ namespace Pm.Api.Services
 
         public User GetById(Guid id)
         {
-            //return _users.FirstOrDefault(x => x.Id == id);
-            try
-            {
-                var perfil = _context.Profiles.FirstOrDefault(p => p.ProfileId == id);
+            var perfil = _context.Profiles.FirstOrDefault(p => p.ProfileId == id);
 
-                return new User()
-                {
-                    Id = perfil.ProfileId.ToString(),
-                    FirstName = perfil.Name,
-                    LastName = perfil.LastName,
-                    Username = perfil.Email
-                };
-            }
-            catch (Exception ex)
+            return new User()
             {
-                throw ex;
-            }
+                Id = perfil.ProfileId.ToString(),
+                FirstName = perfil.Name,
+                LastName = perfil.LastName,
+                Username = perfil.Email
+            };
         }
 
         // helper methods

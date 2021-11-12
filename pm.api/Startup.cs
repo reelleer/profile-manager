@@ -1,3 +1,5 @@
+using ElmahCore;
+using ElmahCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,7 +45,15 @@ namespace Pm.Api
                     }
                 );
             });
-#endif               
+#endif
+
+            services.AddElmah<XmlFileErrorLog>(options =>
+            {
+                options.Path = "icaro";
+                options.LogPath = "~/logs";
+                options.Filters.Add(new helpers.ErrorLogFilter());
+                //options.OnPermissionCheck = context => context.User.Identity.IsAuthenticated;
+            });
 
             services.AddDbContext<ErasmusContext>(
                 option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -67,7 +77,6 @@ namespace Pm.Api
             }
             
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
 #if DEBUG
@@ -78,6 +87,8 @@ namespace Pm.Api
 
             // custom jwt auth middleware
             app.UseMiddleware<JwtMiddleware>();
+
+            app.UseElmah();
 
             app.UseEndpoints(endpoints =>
             {

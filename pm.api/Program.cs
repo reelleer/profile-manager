@@ -21,13 +21,6 @@ namespace Pm.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.ConfigureLogging((ctx, logging) =>
-                    {
-                        logging.AddEventLog (options =>
-                        {
-                            options.SourceName = "Erasmus";
-                        });
-                    });
                 });
     }
 }

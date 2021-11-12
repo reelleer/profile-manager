@@ -28,3 +28,6 @@ obj
 # Visual studio
 PublishProfiles/
 .config/
+
+#elmah
+error-*.xml
