@@ -131,8 +131,8 @@ export default {
         country: this.country,
         university: this.university,
         study: this.study,
-        begin: formatDate(this.begin),
-        end: formatDate(this.end),
+        begin: this.begin? formatDate(this.begin) : '',
+        end: this.begin? formatDate(this.end) : '',
       },
     };
   },
