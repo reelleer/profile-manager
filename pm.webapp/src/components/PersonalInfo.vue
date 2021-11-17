@@ -37,7 +37,6 @@
           class="form-control"
           :class="{ 'is-invalid': v$.form.birthDate.$error }"
           id="birthDate"
-          placeholder="-"
         />
         <label for="birthDate">Fecha Nacimiento</label>
       </div>
@@ -50,7 +49,7 @@
           class="form-control"
           :class="{ 'is-invalid': v$.form.birthPlace.$error }"
           id="birthPlace"
-          placeholder="Nicaragua"
+          placeholder="Managua"
         />
         <label for="birthPlace">Lugar de Nacimiento</label>
       </div>
@@ -184,16 +183,18 @@
 import debounce from "lodash/debounce";
 import useVuelidate from "@vuelidate/core";
 import { required, email, maxLength, numeric } from "@vuelidate/validators";
+import { formatDate } from "@/helpers/utils.js";
 
 export default {
   name: "PersonalInfo",
+  emits: ["pinfo:save"],
   setup() {
     return { v$: useVuelidate() };
   },
   props: {
     name: { type: String, default: "" },
     lastName: { type: String, default: "" },
-    birthDate: { type: Date, default: "" },
+    birthDate: { type: String, default: "" },
     birthPlace: { type: String, default: "" },
     country: { type: String, default: "" },
     address: { type: String, default: "" },
@@ -203,14 +204,14 @@ export default {
     facebook: { type: String, default: "" },
     linkedin: { type: String, default: "" },
     instagram: { type: String, default: "" },
-    working: { type: String, default: "" },
+    working: { type: Number, default: 0 },
   },
   data() {
     return {
       form: {
         name: this.name,
         lastName: this.lastName,
-        birthDate: this.birthDate,
+        birthDate: formatDate(this.birthDate),
         birthPlace: this.birthPlace,
         country: this.country,
         address: this.address,

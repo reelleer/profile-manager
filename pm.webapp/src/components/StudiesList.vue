@@ -44,6 +44,7 @@ let formatDate = (str) => {
 };
 export default {
   name: "StudiesList",
+  emits: ["slist:edit", "slist:remove"],
   props: {
     show: { type: Boolean, default: true },
     items: { type: Array, default: () => [] },

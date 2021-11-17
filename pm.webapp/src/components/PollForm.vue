@@ -56,6 +56,7 @@ import { required, maxLength } from "@vuelidate/validators";
 
 export default {
   name: "PollForm",
+  emits: ["poll:save"],
   setup() {
     return { v$: useVuelidate() };
   },

@@ -107,9 +107,7 @@
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, numeric, minValue } from "@vuelidate/validators";
 import { greaterThan } from "@/helpers/validators.js";
-
-const formatDate = (value) =>
-  new Date(Date.parse(value)).toISOString().slice(0, 10);
+import { formatDate } from "@/helpers/utils.js";
 
 export default {
   name: "StudiesForm",
@@ -131,8 +129,8 @@ export default {
         country: this.country,
         university: this.university,
         study: this.study,
-        begin: this.begin? formatDate(this.begin) : '',
-        end: this.begin? formatDate(this.end) : '',
+        begin: formatDate(this.begin),
+        end: formatDate(this.end),
       },
     };
   },
