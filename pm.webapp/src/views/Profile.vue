@@ -55,6 +55,16 @@
     ></pollForm>
     <div class="d-flex justify-content-center my-4">
       <button class="btn btn-primary btn-lg" @click="profileSave">
+        <svg
+          class="me-1"
+          :class="{ 'color-spin': this.sending }"
+          fill="currentColor"
+          height="18"
+          role="button"
+          width="18"
+        >
+          <use xlink:href="#send" />
+        </svg>
         Actualizar
       </button>
     </div>
@@ -97,6 +107,7 @@ export default {
         studies: [],
         poll: {},
       },
+      sending: false,
     };
   },
   validations() {
@@ -170,20 +181,35 @@ export default {
       this.profile.poll = poll;
     },
     profileSave: debounce(async function () {
+      if (this.sending) return;
+
       const isOk = await this.v$.$validate();
 
       if (isOk) {
         let response;
 
-        if (this.profile.id === "") {
-          response = await this.profilePost({ ...this.profile });
-        } else {
-          response = await this.profilePut(this.profile.id, {
-            ...this.profile,
-          });
+        this.sending = true;
+
+        for (let i = 0; i < 3; i++) {
+          try {
+            if (this.profile.id === "") {
+              response = await this.profilePost({ ...this.profile });
+            } else {
+              response = await this.profilePut(this.profile.id, {
+                ...this.profile,
+              });
+            }
+            break;
+          } catch(er) {
+            console.error(er);
+          }
         }
 
-        if (response.ok) {
+        this.sending = false;
+
+        if(response == undefined)
+          alert("El servidor no responde. Por favor intente más tarde.");
+        else if (response.ok) {
           const user = JSON.parse(localStorage.getItem("user"));
 
           user.firstName = this.profile.personalInfo.name;

@@ -55,6 +55,15 @@
   text-align: end;
 }
 
+.color-spin {
+  animation: color-spinner 1.2s linear 0s infinite normal;
+}
+
+@keyframes color-spinner {
+  0% {color: #004494;}
+  100% {color: inherit;}
+}
+
 textarea.form-control {
   outline: calc(5rem + 2px); 
   height: 9rem;
