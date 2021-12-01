@@ -200,14 +200,14 @@ export default {
               });
             }
             break;
-          } catch(er) {
+          } catch (er) {
             console.error(er);
           }
         }
 
         this.sending = false;
 
-        if(response == undefined)
+        if (response == undefined)
           alert("El servidor no responde. Por favor intente más tarde.");
         else if (response.ok) {
           const user = JSON.parse(localStorage.getItem("user"));

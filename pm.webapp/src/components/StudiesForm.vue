@@ -7,15 +7,16 @@
           class="form-select"
           :class="{ 'is-invalid': v$.form.type.$error }"
           id="type"
-          aria-label="Tipo de Estudio"
+          aria-label="Tipo de Estudio/Participación"
         >
           <option selected value="">(Seleccione una opcción)</option>
           <option value="1">Licenciatura/Ingeniería</option>
           <option value="2">Postgrado/Especialización</option>
           <option value="3">Maestría</option>
-          <option value="3">Doctorado</option>
+          <option value="4">Doctorado</option>
+          <option value="5">Staff Académico</option>
         </select>
-        <label for="type">Tipo de Estudio</label>
+        <label for="type">Tipo de Estudio/Participación</label>
       </div>
     </div>
     <div class="col">
@@ -28,7 +29,7 @@
           type="text"
           placeholder="Nicaragua"
         />
-        <label for="country-study">Pais de Estudio</label>
+        <label for="country-study">País</label>
       </div>
     </div>
     <div class="col-md-12">
@@ -50,9 +51,9 @@
           class="form-control"
           :class="{ 'is-invalid': v$.form.study.$error }"
           type="text"
-          placeholder="Carrera/Studio"
+          placeholder="Carrera/Estudio/Participación"
         />
-        <label for="study">Carrera/Studio</label>
+        <label for="study">Carrera/Estudio/Participación</label>
       </div>
     </div>
     <div class="col">
