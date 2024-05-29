@@ -41,7 +41,7 @@
           type="text"
           placeholder="Universidad"
         />
-        <label for="university">Universiad</label>
+        <label for="university">Universidad</label>
       </div>
     </div>
     <div class="col-md-12">
