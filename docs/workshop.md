@@ -3,23 +3,29 @@
 ## Guía 
 
 1. Día 1 - Preparar el entorno
+  - [Docker][15] (opcional para usar sql)
   - [Git][14]
+    - winget install --id Git.Git -e --source winget
   - Editor de código de su preferencia
+    - `winget install Neovim.Neovim`
   - Instalar el *node version manager* para windows [fnm][1]
     - `winget install Schniz.fnm`
-    - `fnm completions --shell power-shell`--
-    - Add to profile `fnm env --use-on-cd | Out-String | Invoke-Expression`
-    - Instalar version de node
+    - `notepad $profile`
+      - `fnm env --use-on-cd | Out-String | Invoke-Expression`
+    - `fnm install --lts` _requiere permisos de administrador_
   - Instalar manejador de paquetes [pnpm][2]
     - `iwr https://get.pnpm.io/install.ps1 -useb | iex` 
     - `pnpm --version`
+  - Vefificar .NET 5
   - Clonar proyecto
+    - `cd <path>`
     - `git clone https://github.com/reelleer/profile-manager.git` 
   - Preparar BD
     - `.\create-container.ps1`
-  - dotnet run
-  - pnpm install
-  - pnpm serve
+  - `dotnet run`
+  - Opcional ejecutar frontend
+    - `pnpm install`
+    - `pnpm serve`
 
 2. Día 2 - Crear proyecto, ruteo, v-if 
 
@@ -75,3 +81,4 @@
 [12]: https://vuejs.org/guide/reusability/composables.html "Composable"
 [13]: https://vuejs.org/guide/components/registration.html "Components Registration"
 [14]: https://git-scm.com/downloads "Git"
+[15]: https://docs.docker.com/desktop/install/windows-install/ "Instalar Docker en Windows"
