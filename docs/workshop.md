@@ -42,7 +42,7 @@
     - [*v-if*][7] 
     - Guadar token (storage) - 
 
-3. Día 2 - Components: props, events, and vuelidate.
+3. Día 3 - Components: props, events, and vuelidate.
 
   - Profile View
   - Personal Info Component
@@ -52,7 +52,7 @@
     - [Dirty state][9]
       - Global auto dirty - `useVuelidate(rules, state, { $autoDirty: true})`
 
-4. Dia 3 - Listado y directivas v-for y key 
+4. Dia 4 - Listado y directivas v-for y key 
 
   - [v-for & key][10]
   - Componente StudiesList
