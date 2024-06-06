@@ -43,8 +43,8 @@
   - Login component, hacer llamadas a la API
     - [_v-model_][16]
     - [_v-if_][7] 
-    - [_.env_][17] file
     - [Axios][6] `pnpm add axios`
+    - [_.env_][17] file
     - _fetch.js_
     - Guadar token (local storage)
   - [Navigation guards][18]
