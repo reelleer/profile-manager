@@ -32,6 +32,7 @@
   - [Crear proyecto de Vue.js][3]
     - `pnpm create vue@latest`
     - `pnpm dev`
+  - `node --version > .node-version`
   - How VueJs Work?
     - [Componentes][4] - Explicación
     - File structure
