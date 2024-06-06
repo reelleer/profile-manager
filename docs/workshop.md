@@ -27,30 +27,37 @@
     - `pnpm install`
     - `pnpm serve`
 
-2. Día 2 - Crear proyecto, ruteo, v-if 
+2. Día 2 - Crear proyecto, structura del proyecto, componentes y login form 
 
   - [Crear proyecto de Vue.js][3]
     - `pnpm create vue@latest`
     - `pnpm dev`
-  - [Componentes][4] - Explicación
-  - Prepar html base (Iconos)
-  - App.vue (layout, llamandos css)
-  - Ruteo [Vue Router][5]
-  - Instalar [Axios Http][6]
-    - `pnpm add axios`
-  - Login, hacer llamada a API
-    - [*v-if*][7] 
-    - Guadar token (storage) - 
+  - How VueJs Work?
+    - [Componentes][4] - Explicación
+    - File structure
+  - Copiar archivos estáticos
+  - _index.html_ (add css, js, iconos)
+  - _main.js_ (remove defualt css)
+  - _App.vue_ (layout, llamandos css)
+  - Add _ProfileView.vue_ y [ruta][5]
+  - Login component, hacer llamadas a la API
+    - [_v-model_][16]
+    - [_v-if_][7] 
+    - [_.env_][17] file
+    - [Axios][6] `pnpm add axios`
+    - _fetch.js_
+    - Guadar token (local storage)
+  - [Navigation guards][18]
+  - `router.push` (after logon navigate to profile)
 
 3. Día 3 - Components: props, events, and vuelidate.
 
-  - Profile View
   - Personal Info Component
-  - [Vuelidate][8]
-    - Instalar - `pnpm add @vuelidate/core @vuelidate/validators`
-    - Reglas - `const rules = {}`
-    - [Dirty state][9]
-      - Global auto dirty - `useVuelidate(rules, state, { $autoDirty: true})`
+  - [Vuelidate][8] `pnpm add @vuelidate/core @vuelidate/validators`
+  - `const rules = {}`
+  - [Dirty state][9]
+  - Global auto dirty - `useVuelidate(rules, state, { $autoDirty: true})`
+  - Validate login form
 
 4. Dia 4 - Listado y directivas v-for y key 
 
@@ -65,6 +72,13 @@
     - [Composables][12]
   - Icon gallery
   - [Global Registration][13]
+
+## Extras
+
+**Self signed certificate**
+
+- `git config --global http.sslVerify false`
+- `pnpm config --global set strict-ssl false`
 
 
 [1]: https://github.com/Schniz/fnm "Fast Node Manager"
@@ -82,3 +96,7 @@
 [13]: https://vuejs.org/guide/components/registration.html "Components Registration"
 [14]: https://git-scm.com/downloads "Git"
 [15]: https://docs.docker.com/desktop/install/windows-install/ "Instalar Docker en Windows"
+[16]: https://vuejs.org/guide/essentials/forms.html "Form binding"
+[17]: https://vitejs.dev/guide/env-and-mode.html ".env* files"
+[18]: https://router.vuejs.org/guide/advanced/navigation-guards.html "Navigation Guards"
+
