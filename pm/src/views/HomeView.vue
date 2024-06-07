@@ -1,7 +1,6 @@
 <script setup>
 import LoginForm from '../components/LoginForm.vue'
 </script>
-
 <template>
     <div class="container">
       <div class="row">
