@@ -28,7 +28,7 @@ const login = () => {
   post('/accounts/authenticate', data)
     .then(res => {
       if(res.data.token) {
-        localStorage.setItem("user", JSON.stringify(data))
+        localStorage.setItem("user", JSON.stringify(res.data))
 
         user.firstName = res.data.firstName
         user.lastName = res.data.lastName
