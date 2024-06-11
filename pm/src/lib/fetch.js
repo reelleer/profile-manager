@@ -10,6 +10,19 @@ const send = (url, data, method) => {
     data
   } 
   
+  const userJson = localStorage.getItem('user')
+
+  if(userJson) {
+    const userObj = JSON.parse(userJson)
+
+    config = {
+      ...config,
+      headers: {
+        Authorization: 'Bearer ' + userObj.token
+      }
+    } 
+  }
+
   return axios(config)
 } 
 

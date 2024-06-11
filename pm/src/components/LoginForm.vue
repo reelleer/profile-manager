@@ -2,27 +2,48 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { post } from '@/lib/fetch.js'
+import { useVuelidate } from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
 
 const router = useRouter()
 
 const isLogged = ref(false)
 const message = ref("")
-const email = ref("")
+const userEmail = ref("")
 
 const user = reactive({
   firstName: "",
   lastName: ""
 })
 
+const rules = {
+  userEmail: { required, email } 
+}
+
+const v = useVuelidate(
+  rules,
+  { userEmail },
+  { $autoDirty: true }
+)
+
 const logout = () => {
   isLogged.value = false   
   localStorage.removeItem("user");
 }
 
-const login = () => {
+const login = async () => {
   const data = {
-    username: email.value,
+    username: userEmail.value,
     password: Date.now().toString()
+  }
+
+  console.log(v)
+
+  const isValid = await v.value.$validate()
+
+  if(!isValid) {
+    message.value = v.value.$errors[0].$message
+    return
   }
 
   post('/accounts/authenticate', data)
@@ -34,7 +55,7 @@ const login = () => {
         user.lastName = res.data.lastName
 
         isLogged.value = true
-        email.value = ""
+        userEmail.value = ""
 
         router.push({ name: "profile" })
       }
@@ -77,8 +98,9 @@ new Promise(() => {
       </div>
         <div class="form-floating mb-3">
           <input
-          v-model="email"
+          v-model="userEmail"
           class="form-control"
+          :class="{ 'is-invalid': v.userEmail.$error }"
           id="email"
           type="mail"
           placeholder="your@email.com"
