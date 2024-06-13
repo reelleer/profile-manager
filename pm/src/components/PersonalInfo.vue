@@ -193,6 +193,7 @@ const v = useVuelidate(
         <select
           v-model="working"
           class="form-select"
+          :class="{ 'is-invalid': v.working.$error }"
           id="working"
           aria-label="Situación Laboral"
         >

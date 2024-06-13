@@ -37,8 +37,6 @@ const login = async () => {
     password: Date.now().toString()
   }
 
-  console.log(v)
-
   const isValid = await v.value.$validate()
 
   if(!isValid) {
