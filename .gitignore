@@ -31,3 +31,6 @@ PublishProfiles/
 
 #elmah
 error-*.xml
+
+# Vite
+.vite
