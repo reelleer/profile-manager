@@ -100,9 +100,27 @@
     - `defineEmits(['study:edit', 'study:remove'])`
     - `@click="onEdit(study.id)"`
     - `emit('study:edit', id)`
-  - _ProfileView_
-    - 
-  - Componente PollForm
+    - _ProfileView_
+      - validate _studies_ array
+      - add message
+    
+    <p v-show="v.studies.$error" class="my-4 text-danger">
+      Debe agregar al menos un estudio realizado con el programa Erasmus.
+    </p>
+
+    - use computed for v-show
+    - call `onStudyNew()` if studies is empty
+
+  - Componente _PollForm_ [html](PollForm.html)
+    - crera los ref a los v-model
+    - validaciones
+    - agregar clase _is\_invalid_ a los input
+    - agregar mensaje en la UI
+    - event update
+    - _ProfileView_
+      - import _PollForm_
+      - `v-bind="profile.poll"`
+      - handle _poll-save
 
 5. Día 5 - Mejores prácticas
 
