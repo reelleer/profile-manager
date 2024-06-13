@@ -6,6 +6,7 @@ import { get, setUrl } from '../lib/fetch.js'
 import PersonalInfo from '../components/PersonalInfo.vue'
 import StudiesList from '../components/StudiesList.vue'
 import StudyForm from '../components/StudyForm.vue'
+import PollForm from '../components/PollForm.vue'
 
 const url = setUrl('/profiles')
 
@@ -109,6 +110,10 @@ const onStudyRemove = id => {
     profile.value.studies.splice(index, 1)
 }
 
+const onPollSave = (poll) => {
+  profile.value.poll = poll
+}
+
 getProfile()
 </script>
 <template>
@@ -138,6 +143,7 @@ getProfile()
       </svg>
       Agregar
     </button>
+    <PollForm v-bind="profile.poll" @poll-save="onPollSave"></PollForm>
     <div class="d-flex justify-content-center my-4">
       <button class="btn btn-primary btn-lg">
         <svg
