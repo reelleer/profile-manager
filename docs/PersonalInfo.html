@@ -1,0 +1,195 @@
+ <template>
+  <h2 class="h3 border-bottom border-dark py-2">
+    Ingrese sus datos Personales
+  </h2>
+  <div @input="save" class="row row-cols-1 row-cols-md-2">
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="name"
+          type="text"
+          class="form-control"
+          id="name"
+          placeholder="Pedro"
+        />
+        <label for="name">Nombres</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="lastName"
+          type="text"
+          class="form-control"
+          id="lastName"
+          placeholder="Páramo"
+        />
+        <label for="lastName">Apellidos</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="birthDate"
+          type="date"
+          class="form-control"
+          id="birthDate"
+        />
+        <label for="birthDate">Fecha Nacimiento</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="birthPlace"
+          type="text"
+          class="form-control"
+          id="birthPlace"
+          placeholder="Managua"
+        />
+        <label for="birthPlace">Lugar de Nacimiento</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="country"
+          type="text"
+          class="form-control"
+          id="country"
+          placeholder="Nicaragua"
+        />
+        <label for="country">País de Residencia</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="address"
+          type="text"
+          class="form-control"
+          id="address"
+          placeholder="Dirección domiciliar"
+        />
+        <label for="address">Dirección Domiciliar</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="phone"
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="00000000"
+        />
+        <label for="phone">Teléfono<span>/</span>Celular</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="userEmail"
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="name@example.com"
+        />
+        <label for="email">Correo Electrónico</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <select
+          v-model="working"
+          class="form-select"
+          id="working"
+          aria-label="Situación Laboral"
+        >
+          <option value="" selected>(Seleccione un valor)</option>
+          <option value="1">Negocio propio</option>
+          <option value="2">Con Empleo</option>
+          <option value="3">Sin Empleo</option>
+        </select>
+        <label for="working">Situación Laboral</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 class="h3 border-bottom border-dark pb-2">Redes Sociales</h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="twitter"
+          type="text"
+          class="form-control"
+          id="twitter"
+          placeholder="twitter"
+        />
+        <label for="twitter">Twitter</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="facebook"
+          type="text"
+          class="form-control"
+          id="facebook"
+          placeholder="Facebook"
+        />
+        <label for="facebook">Facebook</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="linkedin"
+          type="text"
+          class="form-control"
+          id="linkedin"
+          placeholder="LinkedIn"
+        />
+        <label for="linkedin">LinkedIn</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          v-model="instagram"
+          type="text"
+          class="form-control"
+          id="instagram"
+          placeholder="Instagram"
+        />
+        <label for="instagram">Instagram</label>
+        <div class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

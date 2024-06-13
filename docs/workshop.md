@@ -40,7 +40,8 @@
   - _index.html_ (add css, js, iconos)
   - _main.js_ (remove defualt css)
   - _App.vue_ (layout, llamandos css)
-  - Add _ProfileView.vue_ y [ruta][5]
+  - _ProfileView.vue_ [html](ProfileView.html)
+  - Actualizar [ruta][5]
   - Login component, hacer llamadas a la API
     - [_v-model_][16]
     - [_v-if_][7] 
@@ -51,20 +52,56 @@
   - [Navigation guards][18]
   - `router.push` (after logon navigate to profile)
 
-3. Día 3 - Components: props, events, and vuelidate.
+3. Día 3 - Components: props and vuelidate.
 
-  - Personal Info Component
-  - [Vuelidate][8] `pnpm add @vuelidate/core @vuelidate/validators`
-  - `const rules = {}`
-  - [Dirty state][9]
-  - Global auto dirty - `useVuelidate(rules, state, { $autoDirty: true})`
-  - Validate login form
+  - Personal Info Component [html](PersonalInfo.html)
+    - html and internal data
+    - `defineProps()` [macro][19]
+    - fetch data from api 
+    - add Authorization header
+    - `formatDate` input#date 
+  - [Vuelidate][8]
+    - `pnpm add @vuelidate/core @vuelidate/validators`
+    - import computed
+    - `const rules = {}`
+    - `v.name.$model`
+    - `:class="{ 'is-invalid': v.name.$error }"`
+    - `const isValid = await v.value.$validate()`
+    - [Dirty state][9]
+    - [Global auto dirty][20] - `useVuelidate(rules, state, { $autoDirty: true})`
+    - Validate login form
+      - `const isValid = await v.value.$validate()`
 
-4. Dia 4 - Listado y directivas v-for y key 
+4. Dia 4 - Listado y directivas v-for, key, emit 
 
   - [v-for & key][10]
-  - Componente StudiesList
-  - Componente StudyForm  
+  - _StudiesList_ [HTML](StudiesList.html)
+  - Profile View
+    - ``
+    - import _StudiesList_
+    - add _new_ button
+
+    <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
+    ...
+    <button v-if="!showForm" @click="onStudyNew" class="btn btn-primary">
+      <svg width="19" height="18" fill="currentColor">
+        <use xlink:href="#plus-square" />
+      </svg>
+      Agregar
+    </button>
+
+  - _StudyForm_ [html](StudyForm.html) 
+    - `defineEmits(['study:cancel', 'study:save')` 
+    - _lib/validators.js_ [Vuelidate helpers][21] 
+    - save
+  - _ProfileView_
+    - `let studyId
+  - _StudiesList_
+    - `defineEmits(['study:edit', 'study:remove'])`
+    - `@click="onEdit(study.id)"`
+    - `emit('study:edit', id)`
+  - _ProfileView_
+    - 
   - Componente PollForm
 
 5. Día 5 - Mejores prácticas
@@ -100,4 +137,6 @@
 [16]: https://vuejs.org/guide/essentials/forms.html "Form binding"
 [17]: https://vitejs.dev/guide/env-and-mode.html ".env* files"
 [18]: https://router.vuejs.org/guide/advanced/navigation-guards.html "Navigation Guards"
-
+[19]: https://vuejs.org/guide/components/props.html "Vue Props"
+[20]: https://vuelidate-next.netlify.app/advanced_usage.html#providing-global-config-to-your-vuelidate-instance "Vuelidate global Configuration"
+[21]: https://vuelidate-next.netlify.app/custom_validators.html#list-of-helpers "Vuelidate helpers"
