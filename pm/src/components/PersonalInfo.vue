@@ -5,6 +5,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength, numeric, email } from '@vuelidate/validators'
 
 const props = defineProps(['info'])
+const emit = defineEmits("infoSave")
 
 const name = ref(props.info.firstName)
 const lastName = ref(props.info.lastName)
@@ -55,12 +56,40 @@ const v = useVuelidate(
   },
   { $autoDirty: true }
 )
+
+const emitSave = () => {
+  const data = {
+    name: name.value,
+    lastName: lastName.value,
+    birthDate: birthDate.value,
+    birthPlace: birthPlace.value,
+    country: country.value,
+    address: address.value,
+    phone: phone.value,
+    userEmail: userEmail.value,
+    twitter: twitter.value,
+    facebook: facebook.value,
+    linkedin: linkedin.value,
+    instagram: instagram.value,
+    working: working.value
+  }
+
+  emit('infoSave', data)
+}
+
+let timeoutId
+
+const onInput = () => {
+  if(timeoutId) clearTimeout(timeoutId)
+
+  timeoutId = setTimeout(emitSave, 700)
+}
 </script>
 <template>
   <h2 class="h3 border-bottom border-dark py-2">
     Ingrese sus datos Personales
   </h2>
-  <div @input="save" class="row row-cols-1 row-cols-md-2">
+  <div @input="onInput" class="row row-cols-1 row-cols-md-2">
     <div class="col">
       <div class="form-floating mb-3">
         <input

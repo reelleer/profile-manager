@@ -47,6 +47,10 @@ const getProfile = () => {
   }
 } 
 
+const onInfoSave = (info) => {
+  profile.value.personalInfo = info
+}
+
 let studyId
 
 let studyForm
@@ -120,7 +124,10 @@ getProfile()
   <p v-if="!ready">Estamos cargando tu perfil.</p>
   <div v-else>
     <h1 class="h2 py-3">Rellene el Formulario para actualizar sus datos</h1>
-    <PersonalInfo :info="profile.personalInfo"></PersonalInfo>
+    <PersonalInfo
+      :info="profile.personalInfo"
+      @infoSave="onInfoSave"
+    ></PersonalInfo>
     <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
     <p v-show="showStudiesError" class="my-4 text-danger">
       Debe agregar al menos un estudio realizado con el programa Erasmus.
