@@ -57,6 +57,7 @@
   - Personal Info Component [html](PersonalInfo.html)
     - html and internal data
     - `defineProps()` [macro][19]
+    - `defineEmits` [macro][22]
     - fetch data from api 
     - add Authorization header
     - `formatDate` input#date 
@@ -81,6 +82,7 @@
     - import _StudiesList_
     - add _new_ button
 
+````
     <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
     ...
     <button v-if="!showForm" @click="onStudyNew" class="btn btn-primary">
@@ -89,6 +91,7 @@
       </svg>
       Agregar
     </button>
+````
 
   - _StudyForm_ [html](StudyForm.html) 
     - `defineEmits(['study:cancel', 'study:save')` 
@@ -158,3 +161,4 @@
 [19]: https://vuejs.org/guide/components/props.html "Vue Props"
 [20]: https://vuelidate-next.netlify.app/advanced_usage.html#providing-global-config-to-your-vuelidate-instance "Vuelidate global Configuration"
 [21]: https://vuelidate-next.netlify.app/custom_validators.html#list-of-helpers "Vuelidate helpers"
+[22]: https://vuejs.org/guide/components/events.html#declaring-emitted-events "Declaring events"
