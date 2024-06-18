@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core' 
 import { required, numeric, minValue, maxLength } from '@vuelidate/validators'
 import { greaterThan } from '../lib/validators.js'
+import { formatDate } from '../lib/helpers.js'
 
 const props = defineProps({
   study: {
@@ -11,14 +12,14 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['study:cancel', 'study:save'])
+const emit = defineEmits(['studyCancel', 'studySave'])
 
 const type = ref(props.study.type)
 const country = ref(props.study.country)
 const university = ref(props.study.university)
 const study = ref(props.study.study)
-const begin = ref(props.study.begin)
-const end = ref(props.study.end)
+const begin = ref(formatDate(props.study.begin))
+const end = ref(formatDate(props.study.end))
 
 const rules = {
   type: { required, numeric, minValue: minValue(1) },
@@ -43,7 +44,7 @@ const v = useVuelidate(
 )
 
 const onCancel = () => {
-  emit('study:cancel')
+  emit('studyCancel')
 }
 
 const onSave = async () => {
@@ -59,7 +60,7 @@ const onSave = async () => {
     begin: begin.value,
     end: end.value
   }
-  emit('study:save', data)
+  emit('studySave', data)
 }
 </script>
 <template>

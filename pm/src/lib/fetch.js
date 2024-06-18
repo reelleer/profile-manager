@@ -30,5 +30,7 @@ export const get = (url) => send(url, null, 'GET')
 
 export const post = (url, data) => send(url, data, 'POST')
 
+export const put = (url, data) => send(url, data, 'PUT')
+
 export const setUrl = (baseUrl) => (segment) => `${baseUrl}/${segment}`
 

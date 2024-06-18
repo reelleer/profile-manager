@@ -1,12 +1,15 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, unref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength } from '@vuelidate/validators'
-import { get, setUrl } from '../lib/fetch.js'
+import { get, setUrl, put } from '../lib/fetch.js'
 import PersonalInfo from '../components/PersonalInfo.vue'
 import StudiesList from '../components/StudiesList.vue'
 import StudyForm from '../components/StudyForm.vue'
 import PollForm from '../components/PollForm.vue'
+
+const router = useRouter()
 
 const url = setUrl('/profiles')
 
@@ -30,20 +33,22 @@ const showStudiesError = computed(
   () => v.value.studies.$error && !showForm.value
 )
 
+let user
+
 const getProfile = () => {
   const userJson = localStorage.getItem("user");
 
   if (userJson) {
-    const user = JSON.parse(userJson);
+    user = JSON.parse(userJson);
 
-    get(url(user.id)) 
-      .then( res => {
-        profile.value = res.data
-        ready.value = true
+  get(url(user.id)) 
+    .then( res => {
+      profile.value = res.data
+      ready.value = true
 
-        if(!profile.value.studies || !profile.value.studies.lenght)
-          onStudyNew()
-      })
+      if(!profile.value.studies || !profile.value.studies.length)
+        onStudyNew()
+    })
   }
 } 
 
@@ -100,6 +105,7 @@ const onStudyEdit = (id) => {
   studyForm = profile.value.studies.find(s => s.id === id)
 
   if(studyForm) {
+    console.log(studyForm)
     studyId = id
     showForm.value = true
   }
@@ -114,8 +120,37 @@ const onStudyRemove = id => {
     profile.value.studies.splice(index, 1)
 }
 
-const onPollSave = (poll) => {
+const onPollSave = async (poll) => {
   profile.value.poll = poll
+}
+
+let isSending = false
+
+const profileSave = async () => {
+  if(isSending) return
+
+  const isValid = await v.value.$validate()
+
+  if(!isValid) {
+    alert('Lo datos no se pueden guardar, revise los compos con errores.')
+    return
+  }
+
+  isSending = true
+
+  try {
+    const data = { ... profile.value }
+    data.id = user.id
+
+    const response = await put(url(user.id), data)       
+
+    router.push({ name: 'ProfileEnd' })
+  } catch (error) {
+    console.log(error)
+    alert(`Nos se pudo guardar el perfil: ${error.message}`)
+  }
+
+  isSending = false
 }
 
 getProfile()
@@ -135,8 +170,8 @@ getProfile()
     <StudiesList
       v-if="!showForm"
       :items="profile.studies"
-      @study:edit="onStudyEdit"
-      @study:remove="onStudyRemove"
+      @studyEdit="onStudyEdit"
+      @studyRemove="onStudyRemove"
     ></StudiesList>
     <StudyForm
       v-if="showForm"
@@ -152,7 +187,7 @@ getProfile()
     </button>
     <PollForm v-bind="profile.poll" @poll-save="onPollSave"></PollForm>
     <div class="d-flex justify-content-center my-4">
-      <button class="btn btn-primary btn-lg">
+      <button class="btn btn-primary btn-lg" @click="profileSave">
         <svg
           class="me-1"
           :class="{ 'color-spin': sending }"

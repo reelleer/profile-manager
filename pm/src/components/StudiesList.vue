@@ -1,21 +1,17 @@
 <script setup>
-import {formatDate } from '../lib/helpers.js'
+import { formatDate } from '../lib/helpers.js'
 
-const emit = defineEmits(['study:edit', 'study:remove'])
+const emit = defineEmits(['studyEdit', 'studyRemove'])
 
 const props = defineProps({
   items: {
     type: Array,
     default: []
-  },
-  show: {
-    type: Boolean,
-    default: true
   }
 })
 
-const onEdit = (id) => emit('study:edit', id)
-const onRemove = (id) => emit('study:remove', id)
+const onEdit = (id) => emit('studyEdit', id)
+const onRemove = (id) => emit('studyRemove', id)
 </script>
 <template>
   <div class="row row-cols-1 row-cols-xl-2 g-3 mb-3 mb-3">

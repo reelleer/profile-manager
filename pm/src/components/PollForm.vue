@@ -58,7 +58,7 @@ const onInput = () => {
       <textarea
         v-model="opportunities"
         class="form-control mb-3"
-        :class="{ 'is_invalid': v.opportunities.$error }"
+        :class="{ 'is-invalid': v.opportunities.$error }"
         id="opportunities"
         placeholder="¿Qué oportunidades le ha brindado el programa Erasmus?"
       ></textarea>
@@ -70,7 +70,7 @@ const onInput = () => {
       <textarea
         v-model="activities"
         class="form-control mb-3"
-        :class="{ 'is_invalid': v.activities.$error }"
+        :class="{ 'is-invalid': v.activities.$error }"
         id="activities"
         placeholder="¿Qué actividades te gustaría que el Club Erasmus promovido por la Unión Europea en Nicaragua impulsara?"
       ></textarea>

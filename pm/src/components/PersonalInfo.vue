@@ -5,9 +5,9 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, maxLength, numeric, email } from '@vuelidate/validators'
 
 const props = defineProps(['info'])
-const emit = defineEmits("infoSave")
+const emit = defineEmits(['infoSave'])
 
-const name = ref(props.info.firstName)
+const name = ref(props.info.name)
 const lastName = ref(props.info.lastName)
 const birthDate = ref(formatDate(props.info.birthDate))
 const birthPlace = ref(props.info.birthPlace)
@@ -66,7 +66,7 @@ const emitSave = () => {
     country: country.value,
     address: address.value,
     phone: phone.value,
-    userEmail: userEmail.value,
+    email: userEmail.value,
     twitter: twitter.value,
     facebook: facebook.value,
     linkedin: linkedin.value,
