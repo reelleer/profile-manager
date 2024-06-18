@@ -71,10 +71,8 @@
   - _ProfileView_
     - `import PersonalInfo`
     - fetch user profile
-    - 
 
-
-4. Dia 4 - Listado y directivas v-for, key, emit 
+4. Día 4 - Listado y directivas v-for, key, emit 
 
   - _StudiesList_ [HTML](StudiesList.html)
     - [v-for & key][10]
@@ -95,10 +93,7 @@
     - data
     - validation
     - emit event
-  - Profile View
-    - `import StudiesList`
-    - add next html 
-
+  - Add below html _ProfileView_ 
 
 ````
   <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
@@ -110,7 +105,7 @@
     Agregar
   </button>
 ````
-
+  - _ProfileView_
     - `import StudyForm`
     - handle _StudyForm_ events
     - 'let studyForm'
@@ -155,3 +150,4 @@
 [19]: https://vuejs.org/guide/components/props.html "Vue Props"
 [20]: https://vuelidate-next.netlify.app/advanced_usage.html#providing-global-config-to-your-vuelidate-instance "Vuelidate global Configuration"
 [21]: https://vuelidate-next.netlify.app/custom_validators.html#list-of-helpers "Vuelidate helpers"
+
