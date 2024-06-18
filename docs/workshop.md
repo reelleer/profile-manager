@@ -18,7 +18,7 @@
     - `pnpm --version`
   - Vefificar .NET 5
   - Clonar proyecto
-    - `cd <path>`
+    - `cd <path\to\project>`
     - `git clone https://github.com/reelleer/profile-manager.git` 
   - Preparar BD
     - `.\create-container.ps1`
@@ -57,52 +57,67 @@
   - Personal Info Component [html](PersonalInfo.html)
     - html and internal data
     - `defineProps()` [macro][19]
-    - fetch data from api 
-    - add Authorization header
     - `formatDate` input#date 
-  - [Vuelidate][8]
+    - [Vuelidate][8]
     - `pnpm add @vuelidate/core @vuelidate/validators`
-    - import computed
     - `const rules = {}`
     - `v.name.$model`
     - `:class="{ 'is-invalid': v.name.$error }"`
     - `const isValid = await v.value.$validate()`
     - [Dirty state][9]
     - [Global auto dirty][20] - `useVuelidate(rules, state, { $autoDirty: true})`
+    - `@input="onInput"` on parent element
     - Validate login form
-      - `const isValid = await v.value.$validate()`
+  - _ProfileView_
+    - `import PersonalInfo`
+    - fetch user profile
+    - 
+
 
 4. Dia 4 - Listado y directivas v-for, key, emit 
 
-  - [v-for & key][10]
   - _StudiesList_ [HTML](StudiesList.html)
-  - Profile View
-    - ``
-    - import _StudiesList_
-    - add _new_ button
-
-    <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
-    ...
-    <button v-if="!showForm" @click="onStudyNew" class="btn btn-primary">
-      <svg width="19" height="18" fill="currentColor">
-        <use xlink:href="#plus-square" />
-      </svg>
-      Agregar
-    </button>
-
-  - _StudyForm_ [html](StudyForm.html) 
-    - `defineEmits(['study:cancel', 'study:save')` 
-    - _lib/validators.js_ [Vuelidate helpers][21] 
-    - save
-  - _ProfileView_
-    - `let studyId
-  - _StudiesList_
-    - `defineEmits(['study:edit', 'study:remove'])`
+    - [v-for & key][10]
+    - `v-for="study in props.items"`
+    - `:key="study.id"`
+    - `defineProps({ items: { type: Array, default: [] }})`
+    - `defineEmits(['study-edit', 'study-remove'])`
     - `@click="onEdit(study.id)"`
-    - `emit('study:edit', id)`
-  - _ProfileView_
-    - 
-  - Componente PollForm
+    - `emit('studyEdit', id)`
+    - `formatDate()`
+  - _StudyForm_ [html](StudyForm.html) 
+    - `defineEmits(['studyCancel', 'studySave')` 
+    - `defineProps({ study: { type: Object, required: true }})`
+    - _lib/validators.js_ [Vuelidate helpers][21] 
+    - `emit('studyCancel')`
+    - `emit('studySave)`
+  - Componente PollForm [html](PollForm.html)
+    - data
+    - validation
+    - emit event
+  - Profile View
+    - `import StudiesList`
+    - add next html 
+
+
+````
+  <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
+  ...
+  <button v-if="!showForm" @click="onStudyNew" class="btn btn-primary">
+    <svg width="19" height="18" fill="currentColor">
+      <use xlink:href="#plus-square" />
+    </svg>
+    Agregar
+  </button>
+````
+
+    - `import StudyForm`
+    - handle _StudyForm_ events
+    - 'let studyForm'
+    - `let studyId`
+    - `import PollForm`
+    - handle _PollForm_ events
+    - save profile data
 
 5. Día 5 - Mejores prácticas
 
