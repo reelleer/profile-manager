@@ -10,6 +10,11 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -18,6 +23,18 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     }
   ]
+})
+
+router.beforeEach((to, _, next) => {
+  const publicPages = ['/', '/about']
+  const authRequired = !publicPages.includes(to.path)
+
+  const loggedIn = localStorage.getItem('user')
+
+  if (authRequired && !loggedIn)
+    next('/')
+  else
+    next()
 })
 
 export default router
