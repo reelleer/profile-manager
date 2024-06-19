@@ -170,8 +170,8 @@ getProfile()
     <StudyForm
       v-if="showForm"
       :study="studyForm"
-      @study:cancel="onStudyCancel"
-      @study:save="onStudySave"
+      @study-cancel="onStudyCancel"
+      @study-save="onStudySave"
     ></StudyForm>
     <button v-if="!showForm" @click="onStudyNew" class="btn btn-primary">
       <svg width="19" height="18" fill="currentColor">
@@ -182,16 +182,12 @@ getProfile()
     <PollForm v-bind="profile.poll" @poll-save="onPollSave"></PollForm>
     <div class="d-flex justify-content-center my-4">
       <button class="btn btn-primary btn-lg" @click="profileSave">
-        <svg
+        <AppIcon
+          icon-name="send"
           class="me-1"
           :class="{ 'color-spin': sending }"
-          fill="currentColor"
-          height="18"
           role="button"
-          width="18"
-          >
-          <use xlink:href="#send" />
-        </svg>
+        />
           Actualizar
       </button>
     </div>

@@ -25,26 +25,18 @@ const onRemove = (id) => emit('studyRemove', id)
           {{ formatDate(study.end) }}
           </p>
           <div class="d-flex justify-content-end">
-            <svg
+            <AppIcon 
+              icon-name="pencil"
               class="text-primary me-2"
               @click="onEdit(study.id)"
-              fill="currentColor"
-              height="18"
               role="button"
-              width="18"
-              >
-              <use xlink:href="#pencil" />
-            </svg>
-            <svg
+            />
+            <AppIcon
+              icon-name="trash"
               class="text-danger"
               @click="onRemove(study.id)"
-              fill="currentColor"
-              height="18"
               role="button"
-              width="18"
-              >
-              <use xlink:href="#trash" />
-            </svg>
+            />
           </div>
         </div>
       </div>

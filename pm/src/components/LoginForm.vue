@@ -101,18 +101,14 @@ new Promise(() => {
           <label for="email">Correo Eléctronico</label>
         </div>
         <button type="button" @click="onLogin" class="btn btn-primary mb-3">
-          <svg class="me-2" width="18" height="18" fill="currentColor">
-            <use xlink:href="#check-square" />
-          </svg>
+          <AppIcon class="me-2" icon-name="check-square" />
           Ingresar
         </button>
     </div>
     <div v-else>
       <p class="h3 my-3">Hola {{ fullName }}</p>
       <button type="button" @click="onLogout" class="btn btn-primary mb-3">
-        <svg class="me-2" width="18" height="18" fill="currentColor">
-          <use xlink:href="#check-square" />
-        </svg>
+        <AppIcon class="me-2" icon-name="check-square" />
         Salir
       </button>
     </div>

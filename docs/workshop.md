@@ -119,6 +119,7 @@
   - [Simple State Management][11]
   - [Composables][12]
   - _src/composables/session.js_
+  - Actualizar
     - LoginForm
     - fetch
     - router/index.js

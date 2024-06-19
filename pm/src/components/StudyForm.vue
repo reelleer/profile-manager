@@ -170,15 +170,11 @@ const onSave = async () => {
         @click="onCancel"
         class="btn btn-secondary mb-3"
         >
-        <svg class="me-2" width="18" height="18" fill="currentColor">
-          <use xlink:href="#check-square" />
-        </svg>
+        <AppIcon icon-name="check-square" class="me-2" />
         Cancelar
       </button>
       <button type="button" @click="onSave" class="btn btn-primary mb-3">
-        <svg class="me-2" width="18" height="18" fill="currentColor">
-          <use xlink:href="#check-square" />
-        </svg>
+        <AppIcon icon-name="check-square" class="me-2" />
         Guardar
       </button>
     </div>
