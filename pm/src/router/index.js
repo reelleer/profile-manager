@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useSession } from '../composables/session.js'
+
+const { isLogged } = useSession()
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,9 +42,8 @@ router.beforeEach((to, from, next) => {
   // page
   const publicPages = ["/", "/about"];
   const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem("user");
 
-  if (authRequired && !loggedIn) {
+  if (authRequired && !isLogged.value) {
     return next("/")
   }
 

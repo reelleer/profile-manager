@@ -8,6 +8,9 @@ import PersonalInfo from '../components/PersonalInfo.vue'
 import StudiesList from '../components/StudiesList.vue'
 import StudyForm from '../components/StudyForm.vue'
 import PollForm from '../components/PollForm.vue'
+import { useSession } from '../composables/session.js'
+
+const { userId } = useSession()
 
 const router = useRouter()
 
@@ -33,24 +36,15 @@ const showStudiesError = computed(
   () => v.value.studies.$error && !showForm.value
 )
 
-let user
+const getProfile = () => get(url(userId.value)) 
+  .then(res => {
+    profile.value = res.data
+    ready.value = true
 
-const getProfile = () => {
-  const userJson = localStorage.getItem("user");
-
-  if (userJson) {
-    user = JSON.parse(userJson);
-
-  get(url(user.id)) 
-    .then( res => {
-      profile.value = res.data
-      ready.value = true
-
-      if(!profile.value.studies || !profile.value.studies.length)
-        onStudyNew()
-    })
-  }
-} 
+    if(!profile.value.studies || !profile.value.studies.length)
+      onStudyNew()
+  })
+ 
 
 const onInfoSave = (info) => {
   profile.value.personalInfo = info
@@ -140,9 +134,9 @@ const profileSave = async () => {
 
   try {
     const data = { ... profile.value }
-    data.id = user.id
+    data.id = userId.value
 
-    const response = await put(url(user.id), data)       
+    await put(url(userId.value), data)       
 
     router.push({ name: 'ProfileEnd' })
   } catch (error) {

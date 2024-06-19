@@ -1,19 +1,21 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { post } from '@/lib/fetch.js'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
+import { post } from '@/lib/fetch.js'
+import { useSession } from '../composables/session.js'
+
+const { isLogged, fullName, login, logout } = useSession()
 
 const router = useRouter()
 
-const isLogged = ref(false)
-const message = ref("")
-const userEmail = ref("")
+const message = ref('')
+const userEmail = ref('')
 
 const user = reactive({
-  firstName: "",
-  lastName: ""
+  firstName: '',
+  lastName: ''
 })
 
 const rules = {
@@ -26,17 +28,9 @@ const v = useVuelidate(
   { $autoDirty: true }
 )
 
-const logout = () => {
-  isLogged.value = false   
-  localStorage.removeItem("user");
-}
+const onLogout = () => logout() 
 
-const login = async () => {
-  const data = {
-    username: userEmail.value,
-    password: Date.now().toString()
-  }
-
+const onLogin = async () => {
   const isValid = await v.value.$validate()
 
   if(!isValid) {
@@ -44,28 +38,29 @@ const login = async () => {
     return
   }
 
+  const data = {
+    username: userEmail.value,
+    password: Date.now().toString()
+  }
+
   post('/accounts/authenticate', data)
     .then(res => {
       if(res.data.token) {
-        localStorage.setItem("user", JSON.stringify(res.data))
+        login(res.data)
 
-        user.firstName = res.data.firstName
-        user.lastName = res.data.lastName
+        userEmail.value = ''
 
-        isLogged.value = true
-        userEmail.value = ""
-
-        router.push({ name: "profile" })
+        router.push({ name: 'profile' })
       }
     })
     .catch(err => {
-      if(err.response.status === 401) logount()
+      if(err.response.status === 401) onLogout()
       if(err.message) message.value = err.message
     })
 }
 
 new Promise(() => {
-  const userJson = localStorage.getItem("user") 
+  const userJson = localStorage.getItem('user') 
 
   if(userJson) {
     const userObj = JSON.parse(userJson)
@@ -105,7 +100,7 @@ new Promise(() => {
           />
           <label for="email">Correo Eléctronico</label>
         </div>
-        <button type="button" @click="login" class="btn btn-primary mb-3">
+        <button type="button" @click="onLogin" class="btn btn-primary mb-3">
           <svg class="me-2" width="18" height="18" fill="currentColor">
             <use xlink:href="#check-square" />
           </svg>
@@ -113,8 +108,8 @@ new Promise(() => {
         </button>
     </div>
     <div v-else>
-      <p class="h3 my-3">Hola {{ user.firstName + " " + user.lastName }}</p>
-      <button type="button" @click="logout" class="btn btn-primary mb-3">
+      <p class="h3 my-3">Hola {{ fullName }}</p>
+      <button type="button" @click="onLogout" class="btn btn-primary mb-3">
         <svg class="me-2" width="18" height="18" fill="currentColor">
           <use xlink:href="#check-square" />
         </svg>

@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { useSession } from '../composables/session.js'
+
+const { isLogged,  token } = useSession()
 
 const baseURL = import.meta.env.VITE_BASE_API
 
@@ -10,15 +13,11 @@ const send = (url, data, method) => {
     data
   } 
   
-  const userJson = localStorage.getItem('user')
-
-  if(userJson) {
-    const userObj = JSON.parse(userJson)
-
+  if(isLogged.value) {
     config = {
       ...config,
       headers: {
-        Authorization: 'Bearer ' + userObj.token
+        Authorization: 'Bearer ' + token.value
       }
     } 
   }

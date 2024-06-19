@@ -117,8 +117,12 @@
 5. Día 5 - Mejores prácticas
 
   - [Simple State Management][11]
-    - [Composables][12]
-  - Icon gallery
+  - [Composables][12]
+  - _src/composables/session.js_
+    - LoginForm
+    - fetch
+    - router/index.js
+    - ProfileView
   - [Global Registration][13]
 
 ## Extras
