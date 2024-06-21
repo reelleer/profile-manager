@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, unref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength } from '@vuelidate/validators'
@@ -43,6 +43,9 @@ const getProfile = () => get(url(userId.value))
 
     if(!profile.value.studies || !profile.value.studies.length)
       onStudyNew()
+  })
+  .catch(err => {
+    alert(err.message || "Error con el servidor no se pudo cargar el perfil")
   })
  
 
