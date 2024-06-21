@@ -84,6 +84,7 @@
     - `emit('studyEdit', id)`
     - `formatDate()`
   - _StudyForm_ [html](StudyForm.html) 
+    - `v-model` [modifiers][24]
     - `defineEmits(['studyCancel', 'studySave')` 
     - `defineProps({ study: { type: Object, required: true }})`
     - _lib/validators.js_ [Vuelidate helpers][21] 
@@ -126,7 +127,9 @@
     - ProfileView
   - [Global Registration][13]
   - Trabajando con una lista despegable
-  - [Lifecycle Hooks][22] Al mostrar StudyFrom enfocar tipo de estudio
+  - Al mostrar StudyFrom enfocar tipo de estudio
+    - [Lifecycle Hooks][22] 
+    - [Refs][23]
 
 ## Extras
 
@@ -158,3 +161,5 @@
 [20]: https://vuelidate-next.netlify.app/advanced_usage.html#providing-global-config-to-your-vuelidate-instance "Vuelidate global Configuration"
 [21]: https://vuelidate-next.netlify.app/custom_validators.html#list-of-helpers "Vuelidate helpers"
 [22]: https://vuejs.org/guide/essentials/lifecycle.html "Lifecycle Hooks"
+[23]: https://vuejs.org/guide/essentials/template-refs.html "Template Refs"
+[24]: https://vuejs.org/guide/essentials/forms.html#modifiers "v-model modifiers"

@@ -3,7 +3,9 @@
     <div class="col">
       <div class="form-floating mb-3">
         <select
+          v-model.number="type"
           class="form-select"
+          vueclass="{ 'is-invalid': v.type.$error }"
           id="type"
           aria-label="Tipo de Estudio/Participación"
         >
@@ -16,13 +18,16 @@
         </select>
         <label for="type">Tipo de Estudio/Participación</label>
         <div class="invalid-feedback">
+          {{ ' ' || v.type.$errors[0]?.$message }}
         </div>
       </div>
     </div>
     <div class="col">
       <div class="form-floating mb-3">
         <input
+        v-model="country"
         class="form-control"
+        vueclass="{ 'is-invalid': v.country.$error }"
         id="country-study"
         type="text"
         placeholder="Nicaragua"
@@ -33,36 +38,45 @@
     <div class="col-md-12">
       <div class="form-floating mb-3">
         <input
+        v-model="university"
         class="form-control"
+        vueclass="{ 'is-invalid': v.university.$error }"
         type="text"
         placeholder="Universidad"
         />
         <label for="university">Universidad</label>
         <div class="invalid-feedback">
+          {{ ' ' || v.university.$errors[0]?.$message }}
         </div>
       </div>
     </div>
     <div class="col-md-12">
       <div class="form-floating mb-3">
         <input
+        v-model="study"
         class="form-control"
+        vueclass="{ 'is-invalid': v.study.$error }"
         type="text"
         placeholder="Carrera/Estudio/Participación"
         />
         <label for="study">Carrera/Estudio/Participación</label>
         <div class="invalid-feedback">
+          {{ ' ' || v.study.$errors[0]?.$message }}
         </div>
       </div>
     </div>
     <div class="col">
       <div class="form-floating mb-3">
         <input
+        v-model="begin"
         class="form-control"
+        vueclass="{ 'is-invalid': v.begin.$error }"
         type="date"
         placeholder="Fecha de Inicio"
         />
         <label for="begin">Fecha de Inicio</label>
         <div class="invalid-feedback">
+          {{ ' ' || v.begin.$errors[0]?.$message }}
         </div>
       </div>
     </div>
@@ -70,12 +84,15 @@
       <div class="form-floating mb-3">
         <input
         id="end"
+        v-model="end"
         class="form-control"
+        vueclass="{ 'is-invalid': v.end.$error }"
         type="date"
         placeholder="Fecha de Finalización"
         />
         <label for="end">Fecha de Finalización</label>
         <div class="invalid-feedback">
+          {{ ' ' || v.end.$errors[0]?.$message }}
         </div>
         <p id="endHelp" class="form-text">
         Si aún no está finalizada, proporcione una fecha aproximada.
