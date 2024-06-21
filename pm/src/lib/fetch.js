@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { useSession } from '../composables/session.js'
 
-const { isLogged,  token } = useSession()
+const { isLogged,  token, logout } = useSession()
 
 const baseURL = import.meta.env.VITE_BASE_API
 
-const send = (url, data, method) => {
+const send = async (url, data, method) => {
   let config = {
     baseURL,
     url,
@@ -23,6 +23,13 @@ const send = (url, data, method) => {
   }
 
   return axios(config)
+    .catch(err => {
+      if(err.response.status === 401) {
+        logout()
+      }
+
+      return Promise.reject(err)
+    })
 } 
 
 export const get = (url) => send(url, null, 'GET')

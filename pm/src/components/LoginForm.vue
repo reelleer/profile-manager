@@ -54,7 +54,6 @@ const onLogin = async () => {
       }
     })
     .catch(err => {
-      if(err.response.status === 401) onLogout()
       if(err.message) message.value = err.message
     })
 }
