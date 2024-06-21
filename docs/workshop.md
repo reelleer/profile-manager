@@ -125,6 +125,8 @@
     - router/index.js
     - ProfileView
   - [Global Registration][13]
+  - Trabajando con una lista despegable
+  - [Lifecycle Hooks][22] Al mostrar StudyFrom enfocar tipo de estudio
 
 ## Extras
 
@@ -155,4 +157,4 @@
 [19]: https://vuejs.org/guide/components/props.html "Vue Props"
 [20]: https://vuelidate-next.netlify.app/advanced_usage.html#providing-global-config-to-your-vuelidate-instance "Vuelidate global Configuration"
 [21]: https://vuelidate-next.netlify.app/custom_validators.html#list-of-helpers "Vuelidate helpers"
-
+[22]: https://vuejs.org/guide/essentials/lifecycle.html "Lifecycle Hooks"

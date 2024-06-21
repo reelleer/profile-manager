@@ -4,6 +4,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, numeric, minValue, maxLength } from '@vuelidate/validators'
 import { greaterThan } from '../lib/validators.js'
 import { formatDate } from '../lib/helpers.js'
+import { getStudyTypes } from '../lib/common.js'
 
 const props = defineProps({
   study: {
@@ -20,6 +21,10 @@ const university = ref(props.study.university)
 const study = ref(props.study.study)
 const begin = ref(formatDate(props.study.begin))
 const end = ref(formatDate(props.study.end))
+
+const types = ref([])
+
+getStudyTypes().then(res => types.value = res.data)
 
 const rules = {
   type: { required, numeric, minValue: minValue(1) },
@@ -68,18 +73,16 @@ const onSave = async () => {
     <div class="col">
       <div class="form-floating mb-3">
         <select
-          v-model="type"
+          v-model.number="type"
           class="form-select"
           :class="{ 'is-invalid': v.type.$error }"
           id="type"
           aria-label="Tipo de Estudio/Participación"
         >
           <option selected value="">(Seleccione una opcción)</option>
-          <option value="1">Licenciatura/Ingeniería</option>
-          <option value="2">Postgrado/Especialización</option>
-          <option value="3">Maestría</option>
-          <option value="4">Doctorado</option>
-          <option value="5">Staff Académico</option>
+          <option v-for="item in types" :key="item.id" :value="item.id">
+            {{ item.label }}
+          </option>
         </select>
         <label for="type">Tipo de Estudio/Participación</label>
         <div class="invalid-feedback">
