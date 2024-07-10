@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useVuelidate } from '@vuelidate/core' 
 import { required, numeric, minValue, maxLength } from '@vuelidate/validators'
 import { greaterThan } from '../lib/validators.js'
@@ -67,6 +67,13 @@ const onSave = async () => {
   }
   emit('studySave', data)
 }
+
+const typeSelect = ref(null)
+
+onMounted(() => {
+  //document.getElementById('type').focus()
+  typeSelect.value.focus()
+})
 </script>
 <template>
   <div class="row row-cols-1 row-cols-md-2">
@@ -74,6 +81,7 @@ const onSave = async () => {
       <div class="form-floating mb-3">
         <select
           v-model.number="type"
+          ref="typeSelect"
           class="form-select"
           :class="{ 'is-invalid': v.type.$error }"
           id="type"
