@@ -15,7 +15,9 @@ const logout = () => {
 const isLogged = computed(() => !!user.value)
 
 const fullName = computed(
-  () => `${user.value.firstName} ${user.value.lastName}`
+  () => user.value
+    ? `${user.value.firstName} ${user.value.lastName}`
+    : ''
 )
 
 const token =  computed(() => user.value.token)

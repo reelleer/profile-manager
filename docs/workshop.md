@@ -66,7 +66,7 @@
     - `const isValid = await v.value.$validate()`
     - [Dirty state][9]
     - [Global auto dirty][20] - `useVuelidate(rules, state, { $autoDirty: true})`
-    - `@input="onInput"` on parent element
+    - `@input="onInput"` on parent element [Event bubbling][25]
     - Validate login form
   - _ProfileView_
     - `import PersonalInfo`
@@ -163,3 +163,4 @@
 [22]: https://vuejs.org/guide/essentials/lifecycle.html "Lifecycle Hooks"
 [23]: https://vuejs.org/guide/essentials/template-refs.html "Template Refs"
 [24]: https://vuejs.org/guide/essentials/forms.html#modifiers "v-model modifiers"
+[25]: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Event_bubbling "Event Bubbling"
