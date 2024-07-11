@@ -11,6 +11,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['infoSave'])
+
 const firstName = ref(props.info.firstName)
 const lastName = ref(props.info.lastName)
 const birthDate = ref(
@@ -22,7 +24,7 @@ const birthPlace = ref(props.info.birthPlace)
 const country = ref(props.info.country)
 const address = ref(props.info.address)
 const phone = ref(props.info.phone)
-const userEmail = ref(props.info.userEmail)
+const userEmail = ref(props.info.email)
 const working = ref(props.info.working)
 const twitter = ref(props.info.twitter)
 const facebook = ref(props.info.facebook)
@@ -64,12 +66,40 @@ const v = useVuelidate(
   },
   { $autoDirty: true }
 )
+
+const emitSave = () => {
+  const data = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    birthDate: birthDate.value,
+    birthPlace: birthPlace.value,
+    country: country.value,
+    address: address.value,
+    phone: phone.value,
+    userEmail: userEmail.value,
+    working: working.value,
+    twitter: twitter.value,
+    facebook: facebook.value,
+    linkedin: linkedin.value,
+    instagram: instagram.value
+  }
+
+  emit('infoSave', data)
+}
+
+let timeoutId
+
+const onInput = () => {
+  if(timeoutId) clearTimeout(timeoutId)
+
+  timeoutId = setTimeout(emitSave, 700)
+}
 </script>
 <template>
   <h2 class="h3 border-bottom border-dark py-2">
     Ingrese sus datos Personales
   </h2>
-  <div class="row row-cols-1 row-cols-md-2">
+  <div @input="onInput" class="row row-cols-1 row-cols-md-2">
     <div class="col">
       <div class="form-floating mb-3">
         <input
