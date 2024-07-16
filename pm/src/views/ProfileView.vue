@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { required, minLength } from '@vuelidate/validators'
 import PersonalInfo from '../components/PersonalInfo.vue'
 import StudiesList from '../components/StudiesList.vue'
 import StudyForm from '../components/StudyForm.vue'
+import PollForm from '../components/PollForm.vue'
 import { setUrl, get } from '../lib/fetch.js'
 
 const ready = ref(false)
@@ -14,6 +17,20 @@ const userJson = localStorage.getItem('user')
 const userObj = JSON.parse(userJson)
 
 const profile = ref({})
+
+const rules = {
+  studies: { required, minLength: minLength(1) }
+}
+
+const v = useVuelidate(
+  rules,
+  profile,
+  { $autoDirty: true }
+)
+
+const showStudiesError = computed(
+  () => v.value.studies.$error && !showForm.value
+)
 
 const getProfile = () => get(url(userObj.id))
   .then(res => {
@@ -78,6 +95,36 @@ const onStudySave = (data) => {
   showForm.value = false
 }
 
+const onStudyEdit = (id) => {
+  studyForm = profile.value.studies.find(s => s.id === id)
+
+  if(studyForm) {
+    studyId = studyForm.id
+
+    showForm.value = true
+  }
+}
+
+const onStudyRemove = (id) => {
+  const index = profile.value.studies.findIndex(s => s.id === id)
+
+  if(index >= 0)
+    profile.value.studies.splice(index, 1)
+}
+
+const onPollSave = (poll) => {
+  profile.value.poll = poll
+}
+
+const profileSave = async () => {
+  const isValid = await v.value.$validate()
+
+  if(!isValid) {
+    alert('Lo datos no se pueden guardar, revise los campos con errores')
+    return
+  }
+}
+
 
 getProfile()
 </script>
@@ -90,7 +137,15 @@ getProfile()
       :info="profile.personalInfo"
     ></PersonalInfo>
     <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
-    <StudiesList v-if="!showForm" :items="profile.studies"></StudiesList>
+    <p v-show="showStudiesError" class="my-4 text-danger">
+      Debe agregar al menos un etudio realizado con el programa Erasmus
+    </p>
+    <StudiesList
+      v-if="!showForm"
+      @studyEdit="onStudyEdit"
+      @studyRemove="onStudyRemove"
+      :items="profile.studies"
+    ></StudiesList>
     <StudyForm
       v-else
       :study="studyForm"
@@ -103,8 +158,12 @@ getProfile()
       </svg>
       Agregar
     </button>
+    <PollForm
+      v-bind="profile.poll"
+      @pollSave="onPollSave"
+    ></PollForm>
     <div class="d-flex justify-content-center my-4">
-      <button class="btn btn-primary btn-lg">
+      <button @click="profileSave" class="btn btn-primary btn-lg">
         <svg
           class="me-1"
           :class="{ 'color-spin': sending }"

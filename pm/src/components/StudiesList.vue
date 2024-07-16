@@ -3,6 +3,9 @@ import { formatDate } from '../lib/helpers.js'
 
 const props = defineProps({ items: { type: Array, default: [] }})
 const emit = defineEmits(['studyEdit', 'studyRemove']) 
+
+const onEdit = (id) => emit('studyEdit', id)
+const onDelete = (id) => emit('studyRemove', id)
 </script>
 <template>
   <div class="row row-cols-1 row-cols-xl-2 g-3 mb-3 mb-3">
@@ -18,6 +21,7 @@ const emit = defineEmits(['studyEdit', 'studyRemove'])
           <div class="d-flex justify-content-end">
             <svg
               class="text-primary me-2"
+              @click="onEdit(study.id)"
               fill="currentcolor"
               height="18"
               role="button"
@@ -27,6 +31,7 @@ const emit = defineEmits(['studyEdit', 'studyRemove'])
             </svg>
               <svg
                 class="text-danger"
+                @click="onDelete(study.id)"
                 fill="currentcolor"
                 height="18"
                 role="button"
