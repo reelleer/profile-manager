@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, maxLength } from '@vuelidate/validators'
 import { post } from '../lib/fetch.js'
@@ -7,6 +8,8 @@ import { post } from '../lib/fetch.js'
 const isLogged = ref(false)
 const message = ref('')
 const userEmail = ref('')
+
+const router = useRouter()
 
 const rules = {
   userEmail: { required, email, maxLength: maxLength(128) }
@@ -52,6 +55,8 @@ const onLogin = async () => {
 
       isLogged.value = true
       userEmail.value = ''
+
+      router.push({ name: 'profile' })
     })
     .catch((err) => {
       console.log(err)
