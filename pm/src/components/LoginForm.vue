@@ -1,11 +1,13 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, maxLength } from '@vuelidate/validators'
 import { post } from '../lib/fetch.js'
+import { useSession } from '../composables/session.js'
 
-const isLogged = ref(false)
+const { isLogged, login, logout, fullName } = useSession()
+
 const message = ref('')
 const userEmail = ref('')
 
@@ -16,16 +18,6 @@ const rules = {
 }
 
 const v = useVuelidate(rules, { userEmail }, { $autoDirty: true })
-
-const user = reactive({
-  firstName: '',
-  lastName: ''
-})
-
-const logout = () => {
-  isLogged.value = false
-  localStorage.removeItem('user')
-}
 
 const onLogin = async () => {
   const isValid = await v.value.$validate()
@@ -48,12 +40,8 @@ const onLogin = async () => {
         return
       }
 
-      localStorage.setItem('user', JSON.stringify(res.data))
+      login(res.data)
 
-      user.firstName = res.data.firstName
-      user.lastName = res.data.lastName
-
-      isLogged.value = true
       userEmail.value = ''
 
       router.push({ name: 'profile' })
@@ -64,19 +52,6 @@ const onLogin = async () => {
       if (err.message) message.value = err.message
     })
 }
-
-new Promise(() => {
-  const userJson = localStorage.getItem('user')
-
-  if (userJson) {
-    const userObj = JSON.parse(userJson)
-
-    user.firstName = userObj.firstName
-    user.lastName = userObj.lastName
-
-    isLogged.value = true
-  }
-})
 </script>
 <template>
   <div class="login">
@@ -113,7 +88,7 @@ new Promise(() => {
       </button>
     </div>
     <div v-else>
-      <p class="h3 my-3">Hola {{ user.firstName + ' ' + user.lastName }}</p>
+      <p class="h3 my-3">Hola {{ fullName }}</p>
       <button type="button" @click="logout" class="btn btn-primary mb-3">
         <svg class="me-2" width="18" height="18" fill="currentColor">
           <use xlink:href="#check-square" />

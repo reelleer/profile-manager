@@ -1,6 +1,9 @@
 import axios from 'axios'
+import { useSession } from '../composables/session.js'
 
 const baseURL = import.meta.env.VITE_BASE_API
+
+const { isLogged, token, logout } = useSession()
 
 const send = (url, data, method) => {
   let config = {
@@ -10,20 +13,24 @@ const send = (url, data, method) => {
     data
   }
 
-  const userJson = localStorage.getItem('user')
 
-  if(userJson) {
-    const userObj = JSON.parse(userJson)
 
+  if(isLogged.value) {
     config = {
       ...config,
       headers: {
-        Authorization: 'Bearer ' + userObj.token
+        Authorization: 'Bearer ' + token.value
       }
     } 
   }
 
-  return axios(config) //~task .net
+  return axios(config)
+    .catch((err) => {
+      if(err.response.status === 401)
+        logout()
+
+      return Promise.reject(err)
+    })//~task .net
 }
 
 export const get = (url) => send(url, null, 'GET')
@@ -31,3 +38,5 @@ export const get = (url) => send(url, null, 'GET')
 export const post = (url, data) => send(url, data, 'POST')
 
 export const setUrl = (baseUrl) => (segment) => `${baseUrl}/${segment}`
+
+export const put = (url, data) => send(url, data, 'PUT')

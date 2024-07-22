@@ -13,7 +13,7 @@ const props = defineProps({
 
 const emit = defineEmits(['infoSave'])
 
-const firstName = ref(props.info.firstName)
+const firstName = ref(props.info.name)
 const lastName = ref(props.info.lastName)
 const birthDate = ref(
   props.info.birthDate
@@ -69,14 +69,14 @@ const v = useVuelidate(
 
 const emitSave = () => {
   const data = {
-    firstName: firstName.value,
+    name: firstName.value,
     lastName: lastName.value,
     birthDate: birthDate.value,
     birthPlace: birthPlace.value,
     country: country.value,
     address: address.value,
     phone: phone.value,
-    userEmail: userEmail.value,
+    email: userEmail.value,
     working: working.value,
     twitter: twitter.value,
     facebook: facebook.value,

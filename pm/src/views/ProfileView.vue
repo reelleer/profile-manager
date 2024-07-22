@@ -1,22 +1,25 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength } from '@vuelidate/validators'
 import PersonalInfo from '../components/PersonalInfo.vue'
 import StudiesList from '../components/StudiesList.vue'
 import StudyForm from '../components/StudyForm.vue'
 import PollForm from '../components/PollForm.vue'
-import { setUrl, get } from '../lib/fetch.js'
+import { setUrl, get, put } from '../lib/fetch.js'
+import { useSession } from '../composables/session.js'
 
 const ready = ref(false)
 const sending = ref(false)
 
 const url = setUrl('/profiles') 
 
-const userJson = localStorage.getItem('user')
-const userObj = JSON.parse(userJson)
+const { userId } = useSession()
 
 const profile = ref({})
+
+const router = useRouter()
 
 const rules = {
   studies: { required, minLength: minLength(1) }
@@ -32,12 +35,12 @@ const showStudiesError = computed(
   () => v.value.studies.$error && !showForm.value
 )
 
-const getProfile = () => get(url(userObj.id))
+const getProfile = () => get(url(userId.value))
   .then(res => {
     profile.value = res.data
     ready.value = true
 
-    if(!profile.value.studies || !profile.value.studies.lenght)
+    if(!profile.value.studies || !profile.value.studies.length)
       onStudyNew()
     
   })
@@ -116,15 +119,32 @@ const onPollSave = (poll) => {
   profile.value.poll = poll
 }
 
+let isSending = false
+
 const profileSave = async () => {
   const isValid = await v.value.$validate()
 
-  if(!isValid) {
-    alert('Lo datos no se pueden guardar, revise los campos con errores')
+  if(!isValid) { alert('Lo datos no se pueden guardar, revise los campos con errores')
     return
   }
-}
 
+  isSending = true
+
+  try {
+    const data = { ...profile.value }
+
+    data.id = userId.value
+
+    await put(url(userId.value), data)
+
+    router.push({ name: 'ProfileEnd' })
+  } catch(error) {
+    console.log(error)
+    alert(`No se pudo guardar el perfil: ${error.message}`)
+  }
+
+  isSending = false
+}
 
 getProfile()
 </script>
