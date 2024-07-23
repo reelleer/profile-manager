@@ -16,7 +16,7 @@ const isLogged = computed(() => !!user.value)
 
 const fullName = computed(
   () => user.value
-    ? `${user.value.firtName } ${user.value.lastName}`
+    ? `${user.value.firstName } ${user.value.lastName}`
     : ''
 )
 
