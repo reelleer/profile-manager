@@ -13,7 +13,7 @@ import { useSession } from '../composables/session.js'
 const ready = ref(false)
 const sending = ref(false)
 
-const url = setUrl('/profiles') 
+const url = setUrl('/profiles')
 
 const { userId } = useSession()
 
@@ -25,30 +25,23 @@ const rules = {
   studies: { required, minLength: minLength(1) }
 }
 
-const v = useVuelidate(
-  rules,
-  profile,
-  { $autoDirty: true }
-)
+const v = useVuelidate(rules, profile, { $autoDirty: true })
 
-const showStudiesError = computed(
-  () => v.value.studies.$error && !showForm.value
-)
+const showStudiesError = computed(() => v.value.studies.$error && !showForm.value)
 
-const getProfile = () => get(url(userId.value))
-  .then(res => {
-    profile.value = res.data
-    ready.value = true
+const getProfile = () =>
+  get(url(userId.value))
+    .then((res) => {
+      profile.value = res.data
+      ready.value = true
 
-    if(!profile.value.studies || !profile.value.studies.length)
-      onStudyNew()
-    
-  })
-  .catch(err => {
-    alert(err.message || "Error con el servidor, no se pudo cargar el perfil")
-  })
+      if (!profile.value.studies || !profile.value.studies.length) onStudyNew()
+    })
+    .catch((err) => {
+      alert(err.message || 'Error con el servidor, no se pudo cargar el perfil')
+    })
 
-const onInfoSave = info => {
+const onInfoSave = (info) => {
   profile.value.personalInfo = info
 }
 
@@ -77,15 +70,15 @@ const onStudyCancel = () => {
 }
 
 const onStudySave = (data) => {
-  if(studyId === 0)
+  if (studyId === 0)
     profile.value.studies.push({
       id: Symbol(data.study),
       ...data
     })
   else {
-    const item = profile.value.studies.find(s => s.id === studyId)
+    const item = profile.value.studies.find((s) => s.id === studyId)
 
-    if(item) {
+    if (item) {
       item.type = data.type
       item.country = data.country
       item.university = data.university
@@ -99,9 +92,9 @@ const onStudySave = (data) => {
 }
 
 const onStudyEdit = (id) => {
-  studyForm = profile.value.studies.find(s => s.id === id)
+  studyForm = profile.value.studies.find((s) => s.id === id)
 
-  if(studyForm) {
+  if (studyForm) {
     studyId = studyForm.id
 
     showForm.value = true
@@ -109,10 +102,9 @@ const onStudyEdit = (id) => {
 }
 
 const onStudyRemove = (id) => {
-  const index = profile.value.studies.findIndex(s => s.id === id)
+  const index = profile.value.studies.findIndex((s) => s.id === id)
 
-  if(index >= 0)
-    profile.value.studies.splice(index, 1)
+  if (index >= 0) profile.value.studies.splice(index, 1)
 }
 
 const onPollSave = (poll) => {
@@ -122,13 +114,16 @@ const onPollSave = (poll) => {
 let isSending = false
 
 const profileSave = async () => {
-  const isValid = await v.value.$validate()
-
-  if(!isValid) { alert('Lo datos no se pueden guardar, revise los campos con errores')
-    return
-  }
+  if(isSending) return
 
   isSending = true
+
+  const isValid = await v.value.$validate()
+
+  if (!isValid) {
+    alert('Lo datos no se pueden guardar, revise los campos con errores')
+    return
+  }
 
   try {
     const data = { ...profile.value }
@@ -138,12 +133,12 @@ const profileSave = async () => {
     await put(url(userId.value), data)
 
     router.push({ name: 'ProfileEnd' })
-  } catch(error) {
+  } catch (error) {
     console.log(error)
     alert(`No se pudo guardar el perfil: ${error.message}`)
+  } finally {
+    isSending = false
   }
-
-  isSending = false
 }
 
 getProfile()
@@ -152,10 +147,7 @@ getProfile()
   <p v-if="!ready">Estamos cargando tu perfil.</p>
   <div v-else>
     <h1 class="h2 py-3">Rellene el Formulario para actualizar sus datos</h1>
-    <PersonalInfo
-      @infoSave="onInfoSave"
-      :info="profile.personalInfo"
-    ></PersonalInfo>
+    <PersonalInfo @infoSave="onInfoSave" :info="profile.personalInfo"></PersonalInfo>
     <h2 class="h3 border-bottom border-dark py-2">Historial Académico</h2>
     <p v-show="showStudiesError" class="my-4 text-danger">
       Debe agregar al menos un etudio realizado con el programa Erasmus
@@ -178,10 +170,7 @@ getProfile()
       </svg>
       Agregar
     </button>
-    <PollForm
-      v-bind="profile.poll"
-      @pollSave="onPollSave"
-    ></PollForm>
+    <PollForm v-bind="profile.poll" @pollSave="onPollSave"></PollForm>
     <div class="d-flex justify-content-center my-4">
       <button @click="profileSave" class="btn btn-primary btn-lg">
         <svg
@@ -191,10 +180,10 @@ getProfile()
           height="18"
           role="button"
           width="18"
-          >
+        >
           <use xlink:href="#send" />
         </svg>
-          Actualizar
+        Actualizar
       </button>
     </div>
   </div>

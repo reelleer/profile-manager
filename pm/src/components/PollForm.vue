@@ -12,10 +12,10 @@ const props = defineProps({
 
 const emit = defineEmits(['pollSave'])
 
-const opportunities = ref(props.opportunities) 
-const activities = ref(props.activities) 
-const contacts = ref(props.contacts) 
-const follower = ref(props.follower) 
+const opportunities = ref(props.opportunities)
+const activities = ref(props.activities)
+const contacts = ref(props.contacts)
+const follower = ref(props.follower)
 
 const rules = {
   opportunities: { required, maxLenght: maxLength(1000) },
@@ -28,7 +28,7 @@ const v = useVuelidate(
     opportunities,
     activities
   },
-  { $autoDirty: true}
+  { $autoDirty: true }
 )
 
 let timeoutId
@@ -47,8 +47,8 @@ const emitUpdate = () => {
 }
 
 const onInput = () => {
-  if(timeoutId) clearTimeout(timeoutId)
-  
+  if (timeoutId) clearTimeout(timeoutId)
+
   timeoutId = setTimeout(emitUpdate, 600)
 }
 </script>
@@ -62,7 +62,7 @@ const onInput = () => {
         :class="{ 'is-invalid': v.opportunities.$error }"
         id="opportunities"
         placeholder="¿Qué oportunidades le ha brindado el programa Erasmus?"
-        ></textarea>
+      ></textarea>
       <div class="invalid-feedback">
         {{ v.opportunities.$errors[0]?.$message }}
       </div>
@@ -74,7 +74,7 @@ const onInput = () => {
         :class="{ 'is-invalid': v.activities.$error }"
         id="activities"
         placeholder="¿Qué actividades te gustaría que el Club Erasmus promovido por la Unión Europea en Nicaragua impulsara?"
-        ></textarea>
+      ></textarea>
       <div class="invalid-feedback">
         {{ v.activities.$errors[0]?.$message }}
       </div>
@@ -82,28 +82,23 @@ const onInput = () => {
     <div class="col">
       <div class="mb-3">
         <label for="contacts"
-          >¿Tienes contacto con estudiantes becados a través del Programa
-          Erasmus? ¿En caso positivo cuántos conoces?</label
+          >¿Tienes contacto con estudiantes becados a través del Programa Erasmus? ¿En caso positivo
+          cuántos conoces?</label
         >
         <input
-        v-model.number="contacts"
-        type="number"
-        id="contacts"
-        min="0"
-        max="30"
-        class="form-control"
-        placeholder="Contactos"
+          v-model.number="contacts"
+          type="number"
+          id="contacts"
+          min="0"
+          max="30"
+          class="form-control"
+          placeholder="Contactos"
         />
       </div>
     </div>
     <div class="col">
       <div class="form-check form-switch mb-3">
-        <input
-        v-model.boolean="follower"
-        class="form-check-input"
-        type="checkbox"
-        id="follower"
-        />
+        <input v-model.boolean="follower" class="form-check-input" type="checkbox" id="follower" />
         <label for="follower">¿Sigues las redes sociales de la DUE?</label>
       </div>
     </div>

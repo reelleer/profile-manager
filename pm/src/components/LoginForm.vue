@@ -90,9 +90,7 @@ const onLogin = async () => {
     <div v-else>
       <p class="h3 my-3">Hola {{ fullName }}</p>
       <button type="button" @click="logout" class="btn btn-primary mb-3">
-        <svg class="me-2" width="18" height="18" fill="currentColor">
-          <use xlink:href="#check-square" />
-        </svg>
+        <AppIcon class="me-2" iconName="check-square" />
         Salir
       </button>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-  import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 <template>
   <header>
@@ -8,17 +8,15 @@
         <div class="col-12 py-2 d-flex d-sm-block justify-content-center">
           <a class="navbar-brand" href="/">
             <img
-            src="/Ue2.png"
-            alt="Logo de la Unión Europea"
-            width="135"
-            height="74"
-            class="d-inline-block align-text-center me-2"
+              src="/Ue2.png"
+              alt="Logo de la Unión Europea"
+              width="135"
+              height="74"
+              class="d-inline-block align-text-center me-2"
             />
             <span class="header__deu-title h1">
               <span class="d-none d-sm-inline d-lg-none"> DUE Nicaragua </span>
-              <span class="d-none d-lg-inline">
-                Delegación de la Unión Europea en Nicaragua
-              </span>
+              <span class="d-none d-lg-inline"> Delegación de la Unión Europea en Nicaragua </span>
             </span>
           </a>
         </div>
@@ -29,11 +27,11 @@
         <div class="col-12 py-2 d-flex d-sm-block justify-content-center">
           <a class="navbar-brand" href="/">
             <img
-            src="/Erasmus2.png"
-            alt=""
-            width="159"
-            height="65"
-            class="d-inline-block align-text-center"
+              src="/Erasmus2.png"
+              alt=""
+              width="159"
+              height="65"
+              class="d-inline-block align-text-center"
             />
             <span class="header__erasmus-title h1">
               <span class="d-none d-sm-inline d-md-none"> Nicaragua </span>
@@ -54,28 +52,21 @@
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
-            >
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div
-            class="collapse navbar-collapse nav justify-content-center"
-            id="navbarNav"
-            >
+          <div class="collapse navbar-collapse nav justify-content-center" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <RouterLink class="nav-link text-white px-5" to="/" >
-                Home
+                <RouterLink class="nav-link text-white px-5" to="/"> Home </RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink class="nav-link text-white px-5" :to="{ name: 'profile' }">
+                  Perfil
                 </RouterLink>
               </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link text-white px-5" :to="{ name: 'profile' }" >
-              Perfil
-              </RouterLink >
-            </li>
               <li class="nav-item">
-                <RouterLink class="nav-link text-white px-5" to="/about" >
-                About
-                </RouterLink>
+                <RouterLink class="nav-link text-white px-5" to="/about"> About </RouterLink>
               </li>
             </ul>
           </div>

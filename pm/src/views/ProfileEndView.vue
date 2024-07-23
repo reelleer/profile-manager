@@ -1,3 +1,1 @@
-<template>
-  Listo!!!
-</template>
+<template>Listo!!!</template>

@@ -37,10 +37,8 @@ router.beforeEach((to, _, next) => {
   const publicPages = ['/', '/about']
   const authRequired = !publicPages.includes(to.path)
 
-  if (authRequired && !isLogged.value)
-    next('/')
-  else
-    next()
+  if (authRequired && !isLogged.value) next('/')
+  else next()
 })
 
 export default router

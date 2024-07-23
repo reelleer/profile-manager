@@ -13,24 +13,20 @@ const send = (url, data, method) => {
     data
   }
 
-
-
-  if(isLogged.value) {
+  if (isLogged.value) {
     config = {
       ...config,
       headers: {
         Authorization: 'Bearer ' + token.value
       }
-    } 
+    }
   }
 
-  return axios(config)
-    .catch((err) => {
-      if(err.response.status === 401)
-        logout()
+  return axios(config).catch((err) => {
+    if (err.response.status === 401) logout()
 
-      return Promise.reject(err)
-    })//~task .net
+    return Promise.reject(err)
+  }) //~task .net
 }
 
 export const get = (url) => send(url, null, 'GET')

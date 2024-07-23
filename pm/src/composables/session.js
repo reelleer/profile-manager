@@ -14,10 +14,8 @@ const logout = () => {
 
 const isLogged = computed(() => !!user.value)
 
-const fullName = computed(
-  () => user.value
-    ? `${user.value.firstName } ${user.value.lastName}`
-    : ''
+const fullName = computed(() =>
+  user.value ? `${user.value.firstName} ${user.value.lastName}` : ''
 )
 
 const token = computed(() => user.value.token)
@@ -25,10 +23,10 @@ const token = computed(() => user.value.token)
 const userId = computed(() => user.value.id)
 
 export const useSession = () => {
-  if(!user.value) {
+  if (!user.value) {
     const userJSON = localStorage.getItem('user')
 
-    if(userJSON) {
+    if (userJSON) {
       user.value = JSON.parse(userJSON)
     }
   }
@@ -42,4 +40,3 @@ export const useSession = () => {
     userId
   }
 }
-
